@@ -16,4 +16,8 @@ public class Food {
     @Column(name = 'long_description', nullable = false)
     String longDescription
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = 'food_group_id')
+    FoodGroup foodGroup
+
 }
