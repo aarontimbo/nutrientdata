@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet author="ast (generated)" id="1370402366850-1">
+        <createTable tableName="food_description">
+            <column name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="food_group_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="long_description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="short_description" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="common_name" type="VARCHAR(100)"/>
+            <column name="manufactuer_name" type="VARCHAR(65)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ast (generated)" id="1370402366850-2">
+        <createTable tableName="food_group">
+            <column name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="description" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="ast (generated)" id="1370402366850-3">
+        <addForeignKeyConstraint baseColumnNames="food_group_id" baseTableName="food_description" baseTableSchemaName="usda_sr25" constraintName="food_group_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="food_group" referencedTableSchemaName="usda_sr25" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="ast (generated)" id="1370402366850-4">
+        <createIndex indexName="description_UNIQUE" tableName="food_group" unique="true">
+            <column name="description"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="1" author="ast">
+        <createTable tableName="food_nutrient">
+            <column name="food_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nutrient_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount_per_100_grams" type="float(13,3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_points" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="standard_error" type="float(11,3)"/>
+            <column name="source_code" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="derivation_code" type="varchar(4)"/>
+            <column name="derivation_code" type="varchar(4)"/>
+            <column name="ndb_number" type="INT"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
