@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet author="ast (generated)" id="1370402366850-1">
+    <!--<changeSet author="ast (generated)" id="1370402366850-1">
         <createTable tableName="food_description">
             <column name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -41,9 +41,9 @@
         <createIndex indexName="description_UNIQUE" tableName="food_group" unique="true">
             <column name="description"/>
         </createIndex>
-    </changeSet>
+    </changeSet> -->
 
-    <changeSet id="1" author="ast">
+    <changeSet id="add-food-nutrient-table" author="ast">
         <createTable tableName="food_nutrient">
             <column name="food_id" type="INT">
                 <constraints nullable="false"/>
@@ -62,8 +62,22 @@
                 <constraints nullable="false"/>
             </column>
             <column name="derivation_code" type="varchar(4)"/>
-            <column name="derivation_code" type="varchar(4)"/>
             <column name="ndb_number" type="INT"/>
+            <column name="add_nutr_mark" type="varchar(1)"/>
+            <column name="studies" type="INT"/>
+            <column name="minimum_value" type="float(13,3)"/>
+            <column name="maximum_value" type="float(13,3)"/>
+            <column name="degrees_of_freedom" type="INT"/>
+            <column name="low_eb" type="float(13,3)"/>
+            <column name="up_eb" type="float(13,3)"/>
+            <column name="statistical_comments" type="text"/>
+            <column name="date_created" type="varchar(10)"/>
+            <column name="confidence_code" type="varchar(1)"/>
         </createTable>
+    </changeSet>
+    <changeSet author="ast" id="addPrimaryKey-food-nutrient">
+        <addPrimaryKey columnNames="food_id, nutrient_id"
+                       constraintName="pk_food_nutrient"
+                       tableName="food_nutrient"/>
     </changeSet>
 </databaseChangeLog>
