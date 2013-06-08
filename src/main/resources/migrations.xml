@@ -80,4 +80,57 @@
                        constraintName="pk_food_nutrient"
                        tableName="food_nutrient"/>
     </changeSet>
+    <changeSet author="ast" id="addForeignKey-food-nutrient">
+        <addForeignKeyConstraint baseColumnNames="food_id" baseTableName="food_nutrient" baseTableSchemaName="usda_sr25" constraintName="food_nutrient_food_description_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="food_description" referencedTableSchemaName="usda_sr25" referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="nutrient_id" baseTableName="food_nutrient" baseTableSchemaName="usda_sr25" constraintName="food_nutrient_nutrient_definition_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="nutrient_definition" referencedTableSchemaName="usda_sr25" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="ast" id="add-nutrient-definition-table">
+        <createTable tableName="nutrient_definition">
+            <column name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="unit_of_measure" type="VARCHAR(7)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tagname" type="VARCHAR(20)"/>
+            <column name="description" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rounding" type="VARCHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sr_order" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="add-food-weight-table" author="ast">
+        <createTable tableName="food_weight">
+            <column name="food_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sequence" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="float(8,3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(84)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gram_weight" type="float(8,1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_points" type="INT"/>
+            <column name="standard_deviation" type="float(10,3)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ast" id="addPrimaryKey-food-weight">
+        <addPrimaryKey columnNames="food_id, sequence"
+                       constraintName="pk_food_weight"
+                       tableName="food_weight"/>
+    </changeSet>
+    <changeSet author="ast" id="addForeignKey-food-weight">
+        <addForeignKeyConstraint baseColumnNames="food_id" baseTableName="food_weight" baseTableSchemaName="usda_sr25" constraintName="food_weight_food_description_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="food_description" referencedTableSchemaName="usda_sr25" referencesUniqueColumn="false"/>
+    </changeSet>
 </databaseChangeLog>
