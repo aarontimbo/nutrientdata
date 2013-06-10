@@ -1,9 +1,9 @@
 package com.atimbo.fitness.nutrient.resources
 
-import com.atimbo.fitness.nutrient.dao.FoodDAO
+import com.atimbo.fitness.nutrient.dao.FoodGroupDAO
 import com.atimbo.fitness.nutrient.domain.Food
+import com.atimbo.fitness.nutrient.domain.FoodGroup
 import com.atimbo.fitness.nutrient.domain.FoodNutrient
-import com.sun.jersey.api.model.AbstractResource
 import com.yammer.dropwizard.hibernate.UnitOfWork
 import com.yammer.dropwizard.jersey.params.LongParam
 import com.yammer.metrics.annotation.Timed
@@ -14,21 +14,21 @@ import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
 
-@Path("/food")
+@Path("/foodgroup")
 @Produces(MediaType.APPLICATION_JSON)
-class FoodResource {
-    private FoodDAO foodDAO
+class FoodGroupResource {
+    private FoodGroupDAO foodGroupDAO
 
-    public FoodResource(FoodDAO foodDAO){
-        this.foodDAO = foodDAO
+    public FoodGroupResource(FoodGroupDAO foodGroupDAO) {
+        this.foodGroupDAO = foodGroupDAO
     }
 
-    @Path("/{id}")
+    @Path('/{id}')
     @GET
     @Timed
     @UnitOfWork
-    public Food findFood(@PathParam('id') LongParam id) {
-        return foodDAO.findById(id.get())
+    public FoodGroup findFoodGroup(@PathParam('id') LongParam id) {
+        return foodGroupDAO.findById(id.get())
     }
 
 }

@@ -10,7 +10,7 @@ import javax.persistence.*
 @Table(name = 'food_group')
 @ToString(excludes = ['foods'])
 @EqualsAndHashCode(excludes = ['foods'])
-public class FoodGroup {
+class FoodGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +23,4 @@ public class FoodGroup {
     @JsonIgnore
     Collection<Food> foods = []
 
-    @Transient
-    public boolean addToFoods(Food food) {
-        food.foodGroup = this
-        foods.add(food)
-    }
 }
