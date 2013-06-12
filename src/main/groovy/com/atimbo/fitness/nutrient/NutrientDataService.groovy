@@ -3,7 +3,10 @@ package com.atimbo.fitness.nutrient
 import com.atimbo.fitness.nutrient.conf.NutrientDataConfiguration
 import com.atimbo.fitness.nutrient.dao.FoodDAO
 import com.atimbo.fitness.nutrient.dao.FoodGroupDAO
+import com.atimbo.fitness.nutrient.dao.FoodNutrientDAO
 import com.atimbo.fitness.nutrient.domain.*
+import com.atimbo.fitness.nutrient.resources.FoodGroupResource
+import com.atimbo.fitness.nutrient.resources.FoodNutrientResource
 import com.atimbo.fitness.nutrient.resources.FoodResource
 import com.atimbo.fitness.nutrient.resources.NutrientDataResource
 import com.yammer.dropwizard.Service
@@ -17,7 +20,8 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
 
     public static final List<Class<?>> SERVICE_ENTITIES = [
             Food,
-            FoodGroup
+            FoodGroup,
+            FoodNutrient
     ]
 
     private final HibernateBundle<NutrientDataConfiguration> hibernate =
@@ -51,8 +55,14 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
         environment.addResource(new NutrientDataResource())
 
         final FoodDAO foodDAO = new FoodDAO(hibernate.getSessionFactory())
-        final FoodGroupDAO = new FoodGroupDAO(hibernate.getSessionFactory())
+        final FoodGroupDAO foodGroupDAO = new FoodGroupDAO(hibernate.getSessionFactory())
+        final FoodNutrientDAO foodNutrientDAO = new FoodNutrientDAO(hibernate.getSessionFactory())
         environment.addResource(new FoodResource(foodDAO))
+        environment.addResource(new FoodGroupResource(foodGroupDAO))
+        // TODO:
+        // add a food nutrient dao to build a list of food nutrients for a given food description
+        // add a food nutrient resource to find food resources by food description id
+        environment.addResource(new FoodNutrientResource(foodDAO, foodNutrientDAO))
     }
 
     @Override
