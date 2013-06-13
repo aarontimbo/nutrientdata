@@ -4,10 +4,12 @@ import com.atimbo.fitness.nutrient.conf.NutrientDataConfiguration
 import com.atimbo.fitness.nutrient.dao.FoodDAO
 import com.atimbo.fitness.nutrient.dao.FoodGroupDAO
 import com.atimbo.fitness.nutrient.dao.FoodNutrientDAO
+import com.atimbo.fitness.nutrient.dao.FoodWeightDAO
 import com.atimbo.fitness.nutrient.domain.*
 import com.atimbo.fitness.nutrient.resources.FoodGroupResource
 import com.atimbo.fitness.nutrient.resources.FoodNutrientResource
 import com.atimbo.fitness.nutrient.resources.FoodResource
+import com.atimbo.fitness.nutrient.resources.FoodWeightResource
 import com.atimbo.fitness.nutrient.resources.NutrientDataResource
 import com.yammer.dropwizard.Service
 import com.yammer.dropwizard.config.Bootstrap
@@ -21,7 +23,9 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
     public static final List<Class<?>> SERVICE_ENTITIES = [
             Food,
             FoodGroup,
-            FoodNutrient
+            FoodNutrient,
+            FoodWeight,
+            NutrientDefinition
     ]
 
     private final HibernateBundle<NutrientDataConfiguration> hibernate =
@@ -57,12 +61,11 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
         final FoodDAO foodDAO = new FoodDAO(hibernate.getSessionFactory())
         final FoodGroupDAO foodGroupDAO = new FoodGroupDAO(hibernate.getSessionFactory())
         final FoodNutrientDAO foodNutrientDAO = new FoodNutrientDAO(hibernate.getSessionFactory())
+        final FoodWeightDAO foodWeightDAO = new FoodWeightDAO(hibernate.getSessionFactory())
         environment.addResource(new FoodResource(foodDAO))
         environment.addResource(new FoodGroupResource(foodGroupDAO))
-        // TODO:
-        // add a food nutrient dao to build a list of food nutrients for a given food description
-        // add a food nutrient resource to find food resources by food description id
         environment.addResource(new FoodNutrientResource(foodDAO, foodNutrientDAO))
+        environment.addResource(new FoodWeightResource(foodDAO, foodWeightDAO))
     }
 
     @Override

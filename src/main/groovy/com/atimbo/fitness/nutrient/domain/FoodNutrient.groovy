@@ -15,15 +15,16 @@ import javax.persistence.*
 ])
 @ToString
 @EqualsAndHashCode
-class FoodNutrient {
+class FoodNutrient implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = 'food_id')
     Food food
 
     @Id
-    @Column(name = 'nutrient_id', nullable = false)
-    Long nutrientId
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = 'nutrient_id')
+    NutrientDefinition definition
 
     @Column(name = 'amount_per_100_grams', nullable = false)
     Float amountPer100Grams
