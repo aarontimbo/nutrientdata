@@ -18,6 +18,4 @@ class FoodNutrientDAO extends AbstractDAO<FoodNutrient> {
         return list(query)
     }
 
-    //TODO: Add search for nutrient by food AND nutrient type
-
 }
