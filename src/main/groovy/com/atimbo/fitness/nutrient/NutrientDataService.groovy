@@ -5,12 +5,14 @@ import com.atimbo.fitness.nutrient.dao.FoodDAO
 import com.atimbo.fitness.nutrient.dao.FoodGroupDAO
 import com.atimbo.fitness.nutrient.dao.FoodNutrientDAO
 import com.atimbo.fitness.nutrient.dao.FoodWeightDAO
+import com.atimbo.fitness.nutrient.dao.NutrientDefinitionDAO
 import com.atimbo.fitness.nutrient.domain.*
 import com.atimbo.fitness.nutrient.resources.FoodGroupResource
 import com.atimbo.fitness.nutrient.resources.FoodNutrientResource
 import com.atimbo.fitness.nutrient.resources.FoodResource
 import com.atimbo.fitness.nutrient.resources.FoodWeightResource
 import com.atimbo.fitness.nutrient.resources.NutrientDataResource
+import com.atimbo.fitness.nutrient.resources.NutrientDefinitionResource
 import com.yammer.dropwizard.Service
 import com.yammer.dropwizard.config.Bootstrap
 import com.yammer.dropwizard.config.Environment
@@ -62,10 +64,12 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
         final FoodGroupDAO foodGroupDAO = new FoodGroupDAO(hibernate.getSessionFactory())
         final FoodNutrientDAO foodNutrientDAO = new FoodNutrientDAO(hibernate.getSessionFactory())
         final FoodWeightDAO foodWeightDAO = new FoodWeightDAO(hibernate.getSessionFactory())
+        final NutrientDefinitionDAO nutrientDefinitionDAO = new NutrientDefinitionDAO(hibernate.getSessionFactory())
         environment.addResource(new FoodResource(foodDAO))
         environment.addResource(new FoodGroupResource(foodGroupDAO))
         environment.addResource(new FoodNutrientResource(foodDAO, foodNutrientDAO))
         environment.addResource(new FoodWeightResource(foodDAO, foodWeightDAO))
+        environment.addResource(new NutrientDefinitionResource(nutrientDefinitionDAO))
     }
 
     @Override
