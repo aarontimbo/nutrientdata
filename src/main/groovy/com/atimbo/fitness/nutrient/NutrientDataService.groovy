@@ -14,9 +14,11 @@ import com.atimbo.fitness.nutrient.resources.NutrientDataResource
 import com.yammer.dropwizard.Service
 import com.yammer.dropwizard.config.Bootstrap
 import com.yammer.dropwizard.config.Environment
+import com.yammer.dropwizard.config.FilterBuilder
 import com.yammer.dropwizard.db.DatabaseConfiguration
 import com.yammer.dropwizard.hibernate.HibernateBundle
 import com.yammer.dropwizard.migrations.MigrationsBundle
+import org.eclipse.jetty.servlets.CrossOriginFilter
 
 class NutrientDataService extends Service<NutrientDataConfiguration> {
 
@@ -57,6 +59,12 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
     @Override
     void run(NutrientDataConfiguration configuration, Environment environment) throws ClassNotFoundException {
         environment.addResource(new NutrientDataResource())
+
+        // Allow access to the RESTful service running on same domain with different port
+        // NEEDS TO BE REVISITED BEFORE GOING LIVE!!!
+        FilterBuilder filterConfig = environment.addFilter(CrossOriginFilter.class, "/*");
+        filterConfig.setInitParam(CrossOriginFilter.PREFLIGHT_MAX_AGE_PARAM, String.valueOf(60*60*24)); // 1 day - jetty-servlet CrossOriginFilter will convert to Int.
+        filterConfig.setInitParam(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "http://localhost:8090, http://localhost:9000"); // comma separated list of allowed origin domains
 
         final FoodDAO foodDAO = new FoodDAO(hibernate.getSessionFactory())
         final FoodGroupDAO foodGroupDAO = new FoodGroupDAO(hibernate.getSessionFactory())
