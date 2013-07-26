@@ -9,8 +9,18 @@ import javax.persistence.*
 
 @Entity
 @Table(name = 'food_description')
-@ToString(excludes = ['nutrients'])
-@EqualsAndHashCode(excludes = ['nutrients'])
+@NamedQueries([
+@NamedQuery(
+        name = 'com.atimbo.fitness.nutrient.domain.Food.findAll',
+        query = 'select f from Food f'
+),
+@NamedQuery(
+        name = 'com.atimbo.fitness.nutrient.domain.Food.findAllByDescription',
+        query = 'select f from Food f where f.longDescription like :description'
+)
+])
+@ToString
+@EqualsAndHashCode
 class Food {
 
     @Id
