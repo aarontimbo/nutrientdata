@@ -23,12 +23,27 @@ class FoodResource {
         this.foodDAO = foodDAO
     }
 
+    @GET
+    @Timed
+    @UnitOfWork(transactional = false)
+    public List<Food> findAllFoods() {
+        return foodDAO.findAll()
+    }
+
     @Path("/{id}")
     @GET
     @Timed
     @UnitOfWork
     public Food findFood(@PathParam('id') LongParam id) {
         return foodDAO.findById(id.get())
+    }
+
+    @Path("/filter/{description}")
+    @GET
+    @Timed
+    @UnitOfWork
+    public List<Food> findAllByDescription(@PathParam('description') String description) {
+        return foodDAO.findAllByDescription(description)
     }
 
 }
