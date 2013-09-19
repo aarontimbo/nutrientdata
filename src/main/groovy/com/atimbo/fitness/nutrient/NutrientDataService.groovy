@@ -75,7 +75,7 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
         final NutrientDefinitionDAO nutrientDefinitionDAO = new NutrientDefinitionDAO(hibernate.getSessionFactory())
         environment.addResource(new FoodResource(foodDAO))
         environment.addResource(new FoodGroupResource(foodGroupDAO))
-        environment.addResource(new FoodNutrientResource(foodDAO, foodNutrientDAO))
+        environment.addResource(new FoodNutrientResource(foodDAO, foodNutrientDAO, nutrientDefinitionDAO))
         environment.addResource(new FoodWeightResource(foodDAO, foodWeightDAO))
         environment.addResource(new NutrientDefinitionResource(nutrientDefinitionDAO))
     }

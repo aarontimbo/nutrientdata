@@ -2,6 +2,7 @@ package com.atimbo.fitness.nutrient.dao
 
 import com.atimbo.fitness.nutrient.domain.NutrientDefinition
 import com.yammer.dropwizard.hibernate.AbstractDAO
+import org.hibernate.Query
 import org.hibernate.SessionFactory
 
 class NutrientDefinitionDAO extends AbstractDAO<NutrientDefinition> {
@@ -11,7 +12,13 @@ class NutrientDefinitionDAO extends AbstractDAO<NutrientDefinition> {
     }
 
     public List<NutrientDefinition> findAll() {
-        return list(namedQuery('com.atimbo.fitness.nutrient.domain.NutrientDefinition.findAll'))
+        Query query = super.currentSession()
+                .getNamedQuery('com.atimbo.fitness.nutrient.domain.NutrientDefinition.findAll')
+        return list(query)
+    }
+
+    public NutrientDefinition findById(Long id) {
+        return get(id)
     }
 
 }
