@@ -32,7 +32,7 @@ class NutrientDefinitionResource {
     @GET
     @Timed
     @UnitOfWork
-    public List<NutrientDefinition> findNutrientDefinition(@PathParam('id') LongParam id) {
+    public NutrientDefinition findNutrientDefinition(@PathParam('id') LongParam id) {
         return nutrientDefinitionDAO.findById(id.get())
     }
 
