@@ -1,7 +1,6 @@
 package com.atimbo.fitness.nutrient.dao
 
 import com.atimbo.fitness.nutrient.domain.Food
-import com.atimbo.fitness.nutrient.domain.FoodNutrient
 import com.yammer.dropwizard.hibernate.AbstractDAO
 import org.hibernate.Query
 import org.hibernate.SessionFactory

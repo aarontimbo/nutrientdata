@@ -11,7 +11,7 @@ import javax.persistence.*
 @NamedQuery(
         name = 'com.atimbo.fitness.nutrient.domain.NutrientDefinition.findAll',
         query = 'select nd from NutrientDefinition nd'
-)
+    )
 ])
 @ToString
 @EqualsAndHashCode
