@@ -11,6 +11,15 @@ class FoodDAO extends AbstractDAO<Food> {
         super(factory)
     }
 
+    /**
+     * Only used for testing
+     * @param food
+     * @return
+     */
+    public Food saveOrUpdate(Food food) {
+        persist(food)
+    }
+
     public Food findById(Long id) {
         return get(id)
     }
