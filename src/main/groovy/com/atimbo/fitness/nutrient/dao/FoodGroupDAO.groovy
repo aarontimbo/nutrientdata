@@ -13,4 +13,13 @@ class FoodGroupDAO extends AbstractDAO<FoodGroup> {
         return get(id)
     }
 
+    /**
+     * Only used for testing
+     * @param foodGroup
+     * @return
+     */
+    public FoodGroup saveOrUpdate(FoodGroup foodGroup) {
+        persist(foodGroup)
+    }
+
 }
