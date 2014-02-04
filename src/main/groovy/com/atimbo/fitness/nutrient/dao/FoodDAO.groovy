@@ -5,6 +5,8 @@ import com.yammer.dropwizard.hibernate.AbstractDAO
 import org.hibernate.Query
 import org.hibernate.SessionFactory
 
+import javax.persistence.EntityNotFoundException
+
 class FoodDAO extends AbstractDAO<Food> {
 
     public FoodDAO(SessionFactory factory) {
@@ -21,6 +23,10 @@ class FoodDAO extends AbstractDAO<Food> {
     }
 
     public Food findById(Long id) {
+        Food food = get(id)
+        if (!food) {
+            throw new EntityNotFoundException("Could not find food with id: ${id}")
+        }
         return get(id)
     }
 

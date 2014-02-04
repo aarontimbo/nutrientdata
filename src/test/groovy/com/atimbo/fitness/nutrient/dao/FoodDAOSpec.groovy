@@ -43,19 +43,11 @@ class FoodDAOSpec extends DatabaseSpecification {
     }
 
     void 'retrieving a food that does not exist throws an error'() {
-        given:
-        FoodGroup foodGroup = new FoodGroup(description: 'meat')
-        foodGroupDAO.saveOrUpdate(foodGroup)
-        Food expectedFood = new Food(
-                longDescription: 'meat',
-                shortDescription: 'meat',
-                foodGroup: foodGroup
-        )
-        foodDAO.saveOrUpdate(expectedFood)
-        assert expectedFood.id
+        given: 'food that does not exist'
+        Long nonExistentFoodId = 999
 
         when:
-        foodDAO.findById(expectedFood.id)
+        foodDAO.findById(nonExistentFoodId)
 
         then:
         thrown(EntityNotFoundException)
