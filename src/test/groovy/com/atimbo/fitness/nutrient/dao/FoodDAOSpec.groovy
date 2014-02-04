@@ -27,8 +27,8 @@ class FoodDAOSpec extends DatabaseSpecification {
         FoodGroup foodGroup = new FoodGroup(description: 'meat')
         foodGroupDAO.saveOrUpdate(foodGroup)
         Food expectedFood = new Food(
-                longDescription: 'meat',
-                shortDescription: 'meat',
+                longDescription: 'steak',
+                shortDescription: 'steak',
                 foodGroup: foodGroup
         )
         foodDAO.saveOrUpdate(expectedFood)
@@ -39,6 +39,33 @@ class FoodDAOSpec extends DatabaseSpecification {
 
         then:
         food == expectedFood
+
+    }
+
+    void 'find all retrieves a list of foods'() {
+        given: 'a food'
+        FoodGroup foodGroup = new FoodGroup(description: 'meat')
+        foodGroupDAO.saveOrUpdate(foodGroup)
+        Food food = new Food(
+                longDescription: 'steak',
+                shortDescription: 'steak',
+                foodGroup: foodGroup
+        )
+        foodDAO.saveOrUpdate(food)
+
+        and: 'another food'
+        food = new Food(
+                longDescription: 'pork chop',
+                shortDescription: 'pork chop',
+                foodGroup: foodGroup
+        )
+        foodDAO.saveOrUpdate(food)
+
+        when: 'retrieving all foods'
+        List<Food> foods = foodDAO.findAll()
+
+        then: 'a list of foods is returned'
+        foods.size() == 2
 
     }
 
@@ -53,5 +80,7 @@ class FoodDAOSpec extends DatabaseSpecification {
         thrown(EntityNotFoundException)
 
     }
+
+
 
 }

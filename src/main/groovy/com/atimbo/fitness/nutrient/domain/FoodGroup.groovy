@@ -19,7 +19,7 @@ class FoodGroup {
     @Column(name = 'description', nullable = false)
     String description
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = 'id')
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = 'foodGroup')
     @JsonIgnore
     Collection<Food> foods = []
 
