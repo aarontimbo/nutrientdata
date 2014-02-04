@@ -1,5 +1,7 @@
-nn  nn uu  uu tttttttt rrrrrr   iiii  eeeeee nn  nn tttttttt
-nnn nn uu  uu    tt    rr   rr   ii   ee     nnn nn    tt
-nn nnn uu  uu    tt    rrrrrr    ii   eeee   nn nnn    tt
-nn  nn uu  uu    tt    rr  rr    ii   ee     nn  nn    tt
-nn  nn  uuuu     tt    rr   rr  iiii  eeeeee nn  nn    tt
+
+Starting Nutrient Data Service...
+
+ __ _  _  _  ____  ____  __  ____  __ _  ____    ____   __  ____  __
+(  ( \/ )( \(_  _)(  _ \(  )(  __)(  ( \(_  _)  (    \ / _\(_  _)/ _\
+/    /) \/ (  )(   )   / )(  ) _) /    /  )(     ) D (/    \ )( /    \
+\_)__)\____/ (__) (__\_)(__)(____)\_)__) (__)   (____/\_/\_/(__)\_/\_/
