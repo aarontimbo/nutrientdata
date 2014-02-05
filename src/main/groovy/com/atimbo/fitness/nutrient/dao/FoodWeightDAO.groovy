@@ -13,7 +13,8 @@ class FoodWeightDAO extends AbstractDAO<FoodWeight> {
     }
 
     public List<FoodWeight> findAllByFood(Food food) {
-        Query query = super.currentSession().getNamedQuery('com.atimbo.fitness.nutrient.domain.FoodWeight.findAllByFood')
+        Query query = super.currentSession()
+                .getNamedQuery('com.atimbo.fitness.nutrient.domain.FoodWeight.findAllByFood')
         query.setParameter('food', food)
         return list(query)
     }

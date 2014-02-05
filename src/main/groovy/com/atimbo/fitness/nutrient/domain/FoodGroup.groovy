@@ -9,7 +9,7 @@ import javax.persistence.*
 @Entity
 @Table(name = 'food_group')
 @ToString(excludes = ['foods'])
-@EqualsAndHashCode(excludes = ['foods'])
+@EqualsAndHashCode()
 class FoodGroup {
 
     @Id

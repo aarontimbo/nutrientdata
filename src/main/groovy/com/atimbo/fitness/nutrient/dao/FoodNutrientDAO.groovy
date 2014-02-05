@@ -9,6 +9,8 @@ import org.hibernate.SessionFactory
 
 class FoodNutrientDAO extends AbstractDAO<FoodNutrient> {
 
+    static final String FOOD_PARAM = 'food'
+
     public FoodNutrientDAO(SessionFactory factory) {
         super(factory)
     }
@@ -16,14 +18,14 @@ class FoodNutrientDAO extends AbstractDAO<FoodNutrient> {
     public List<FoodNutrient> findAllByFood(Food food) {
         Query query = super.currentSession()
                 .getNamedQuery('com.atimbo.fitness.nutrient.domain.FoodNutrient.findAllByFood')
-        query.setParameter('food', food)
+        query.setParameter(FOOD_PARAM, food)
         return list(query)
     }
 
-    public FoodNutrient findByFoodAndDefinition(Food food, NutrientDefinition definition) {
+    public FoodNutrient findByFoodAndDefinition(Food foodDescription, NutrientDefinition definition) {
         Query query = super.currentSession()
                 .getNamedQuery('com.atimbo.fitness.nutrient.domain.FoodNutrient.findByFoodAndDefinition')
-        query.setParameter('food', food)
+        query.setParameter(FOOD_PARAM, foodDescription)
         query.setParameter('definition', definition)
         return uniqueResult(query)
     }

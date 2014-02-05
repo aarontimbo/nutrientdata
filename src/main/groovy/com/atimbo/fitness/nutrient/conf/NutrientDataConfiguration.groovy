@@ -11,7 +11,7 @@ class NutrientDataConfiguration extends Configuration {
     @Valid
     @NotNull
     @JsonProperty
-    private DatabaseConfiguration database = new DatabaseConfiguration()
+    private final DatabaseConfiguration database = new DatabaseConfiguration()
 
     public DatabaseConfiguration getDatabaseConfiguration() {
         return database

@@ -14,24 +14,24 @@ import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
 
-@Path("/weight")
+@Path('/weight')
 @Produces(MediaType.APPLICATION_JSON)
 class FoodWeightResource {
-    private FoodDAO foodDAO
-    private FoodWeightDAO foodWeightDAO
+    private final FoodDAO FOOD_DAO
+    private final FoodWeightDAO FOOD_WEIGHT_DAO
 
     FoodWeightResource(FoodDAO foodDAO, FoodWeightDAO foodWeightDAO) {
-        this.foodDAO = foodDAO
-        this.foodWeightDAO = foodWeightDAO
+        this.FOOD_DAO = foodDAO
+        this.FOOD_WEIGHT_DAO = foodWeightDAO
     }
 
-    @Path("/{id}")
+    @Path('/{id}')
     @GET
     @Timed
     @UnitOfWork
     public List<FoodWeight> findWeightByFood(@PathParam('id') LongParam id) {
-        Food food = foodDAO.findById(id.get())
-        return foodWeightDAO.findAllByFood(food)
+        Food food = FOOD_DAO.findById(id.get())
+        return FOOD_WEIGHT_DAO.findAllByFood(food)
     }
 
 }
