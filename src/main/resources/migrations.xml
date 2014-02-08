@@ -6,8 +6,8 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet author="ast (generated)" id="1370402366850-1">
-        <createTable tableName="food_description">
+    <changeSet author="ast" id="create_usda_tables">
+        <createTable tableName="food_description" schemaName="usda">
             <column name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -23,9 +23,12 @@
             <column name="common_name" type="VARCHAR(100)"/>
             <column name="manufacturer_name" type="VARCHAR(65)"/>
         </createTable>
-    </changeSet>
-    <changeSet author="ast (generated)" id="1370402366850-2">
-        <createTable tableName="food_group">
+
+        <createIndex indexName="long_description_UX" tableName="food_description" unique="true" schemaName="usda">
+            <column name="long_description"/>
+        </createIndex>
+
+        <createTable tableName="food_group" schemaName="usda">
             <column name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -33,42 +36,25 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-    </changeSet>
-    <changeSet author="ast (generated)" id="1370402366850-3">
-        <addForeignKeyConstraint baseColumnNames="food_group_id"
-                                 baseTableName="food_description"
-                                 baseTableSchemaName="usda_sr25"
-                                 constraintName="food_group_FK"
-                                 deferrable="false"
-                                 initiallyDeferred="false"
-                                 onDelete="NO ACTION"
-                                 onUpdate="NO ACTION"
-                                 referencedColumnNames="id"
-                                 referencedTableName="food_group"
-                                 referencedTableSchemaName="usda_sr25"
-                                 referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet author="ast (generated)" id="1370402366850-4">
-        <createIndex indexName="description_UNIQUE" tableName="food_group" unique="true">
+
+        <createIndex indexName="description_UX" tableName="food_group" unique="true" schemaName="usda">
             <column name="description"/>
         </createIndex>
-    </changeSet>
 
-    <changeSet id="add-food-nutrient-table" author="ast">
-        <createTable tableName="food_nutrient">
+        <createTable tableName="food_nutrient" schemaName="usda">
             <column name="food_id" type="INT">
                 <constraints nullable="false"/>
             </column>
             <column name="nutrient_id" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="amount_per_100_grams" type="float(13,3)">
+            <column name="amount_per_100_grams" type="numeric(13,3)">
                 <constraints nullable="false"/>
             </column>
             <column name="data_points" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="standard_error" type="float(11,3)"/>
+            <column name="standard_error" type="numeric(11,3)"/>
             <column name="source_code" type="INT">
                 <constraints nullable="false"/>
             </column>
@@ -76,47 +62,23 @@
             <column name="ndb_number" type="INT"/>
             <column name="add_nutr_mark" type="varchar(1)"/>
             <column name="studies" type="INT"/>
-            <column name="minimum_value" type="float(13,3)"/>
-            <column name="maximum_value" type="float(13,3)"/>
+            <column name="minimum_value" type="numeric(13,3)"/>
+            <column name="maximum_value" type="numeric(13,3)"/>
             <column name="degrees_of_freedom" type="INT"/>
-            <column name="low_eb" type="float(13,3)"/>
-            <column name="up_eb" type="float(13,3)"/>
+            <column name="low_eb" type="numeric(13,3)"/>
+            <column name="up_eb" type="numeric(13,3)"/>
             <column name="statistical_comments" type="text"/>
             <column name="date_created" type="varchar(10)"/>
             <column name="confidence_code" type="varchar(1)"/>
         </createTable>
-    </changeSet>
-    <changeSet author="ast" id="addPrimaryKey-food-nutrient">
+
         <addPrimaryKey columnNames="food_id, nutrient_id"
                        constraintName="pk_food_nutrient"
-                       tableName="food_nutrient"/>
-    </changeSet>
-    <changeSet author="ast" id="addForeignKey-food-nutrient">
-        <addForeignKeyConstraint baseColumnNames="food_id"
-                                 baseTableName="food_nutrient"
-                                 baseTableSchemaName="usda_sr25"
-                                 constraintName="food_nutrient_food_description_FK"
-                                 deferrable="false" initiallyDeferred="false"
-                                 onDelete="NO ACTION" onUpdate="NO ACTION"
-                                 referencedColumnNames="id"
-                                 referencedTableName="food_description"
-                                 referencedTableSchemaName="usda_sr25"
-                                 referencesUniqueColumn="false"/>
-        <addForeignKeyConstraint baseColumnNames="nutrient_id"
-                                 baseTableName="food_nutrient"
-                                 baseTableSchemaName="usda_sr25"
-                                 constraintName="food_nutrient_nutrient_definition_FK"
-                                 deferrable="false"
-                                 initiallyDeferred="false"
-                                 onDelete="NO ACTION"
-                                 onUpdate="NO ACTION"
-                                 referencedColumnNames="id"
-                                 referencedTableName="nutrient_definition"
-                                 referencedTableSchemaName="usda_sr25"
-                                 referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet author="ast" id="add-nutrient-definition-table">
-        <createTable tableName="nutrient_definition">
+                       tableName="food_nutrient"
+                       schemaName="usda"/>
+
+
+        <createTable tableName="nutrient_definition" schemaName="usda">
             <column name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -134,37 +96,48 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-    </changeSet>
-    <changeSet id="add-food-weight-table" author="ast">
-        <createTable tableName="food_weight">
+
+        <createTable tableName="food_weight" schemaName="usda">
             <column name="food_id" type="INT">
                 <constraints nullable="false"/>
             </column>
             <column name="sequence" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="amount" type="float(8,3)">
+            <column name="amount" type="numeric(8,3)">
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="varchar(84)">
                 <constraints nullable="false"/>
             </column>
-            <column name="gram_weight" type="float(8,1)">
+            <column name="gram_weight" type="numeric(8,1)">
                 <constraints nullable="false"/>
             </column>
             <column name="data_points" type="INT"/>
-            <column name="standard_deviation" type="float(10,3)"/>
+            <column name="standard_deviation" type="numeric(10,3)"/>
         </createTable>
-    </changeSet>
-    <changeSet author="ast" id="addPrimaryKey-food-weight">
+
         <addPrimaryKey columnNames="food_id, sequence"
                        constraintName="pk_food_weight"
-                       tableName="food_weight"/>
-    </changeSet>
-    <changeSet author="ast" id="addForeignKey-food-weight">
+                       tableName="food_weight"
+                       schemaName="usda"/>
+
+        <addForeignKeyConstraint baseColumnNames="food_group_id"
+                                 baseTableName="food_description"
+                                 baseTableSchemaName="usda"
+                                 constraintName="food_group_FK"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="food_group"
+                                 referencedTableSchemaName="usda"
+                                 referencesUniqueColumn="false"/>
+
         <addForeignKeyConstraint baseColumnNames="food_id"
                                  baseTableName="food_weight"
-                                 baseTableSchemaName="usda_sr25"
+                                 baseTableSchemaName="usda"
                                  constraintName="food_weight_food_description_FK"
                                  deferrable="false"
                                  initiallyDeferred="false"
@@ -172,7 +145,31 @@
                                  onUpdate="NO ACTION"
                                  referencedColumnNames="id"
                                  referencedTableName="food_description"
-                                 referencedTableSchemaName="usda_sr25"
+                                 referencedTableSchemaName="usda"
                                  referencesUniqueColumn="false"/>
+
+        <addForeignKeyConstraint baseColumnNames="food_id"
+                                 baseTableName="food_nutrient"
+                                 baseTableSchemaName="usda"
+                                 constraintName="food_nutrient_food_description_FK"
+                                 deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="food_description"
+                                 referencedTableSchemaName="usda"
+                                 referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="nutrient_id"
+                                 baseTableName="food_nutrient"
+                                 baseTableSchemaName="usda"
+                                 constraintName="food_nutrient_nutrient_definition_FK"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="nutrient_definition"
+                                 referencedTableSchemaName="usda"
+                                 referencesUniqueColumn="false"/>
+
     </changeSet>
 </databaseChangeLog>
