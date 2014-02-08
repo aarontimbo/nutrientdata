@@ -9,7 +9,7 @@ import javax.persistence.*
 @Entity
 @Table(name = 'food_group')
 @ToString(excludes = ['foods'])
-@EqualsAndHashCode(excludes = ['foods'])
+@EqualsAndHashCode()
 class FoodGroup {
 
     @Id
@@ -19,7 +19,7 @@ class FoodGroup {
     @Column(name = 'description', nullable = false)
     String description
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = 'id')
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = 'foodGroup')
     @JsonIgnore
     Collection<Food> foods = []
 

@@ -5,7 +5,11 @@ import com.yammer.dropwizard.hibernate.AbstractDAO
 import org.hibernate.Query
 import org.hibernate.SessionFactory
 
+import javax.persistence.EntityNotFoundException
+
 class FoodDAO extends AbstractDAO<Food> {
+
+    static final String QUERY_WILDCARD = '%'
 
     public FoodDAO(SessionFactory factory) {
         super(factory)
@@ -21,6 +25,10 @@ class FoodDAO extends AbstractDAO<Food> {
     }
 
     public Food findById(Long id) {
+        Food food = get(id)
+        if (!food) {
+            throw new EntityNotFoundException("Could not find food with id: ${id}")
+        }
         return get(id)
     }
 
@@ -29,9 +37,10 @@ class FoodDAO extends AbstractDAO<Food> {
         return list(query)
     }
 
-    public List<Food> findAllByDescription(String description) {
-        Query query = super.currentSession().getNamedQuery('com.atimbo.fitness.nutrient.domain.Food.findAllByDescription')
-        query.setParameter('description', '%' + description + '%')
+    public List<Food> findAllByDescription(String foodDescription) {
+        Query query = super.currentSession()
+                .getNamedQuery('com.atimbo.fitness.nutrient.domain.Food.findAllByDescription')
+        query.setParameter('description', QUERY_WILDCARD + foodDescription + QUERY_WILDCARD)
         return list(query)
     }
 

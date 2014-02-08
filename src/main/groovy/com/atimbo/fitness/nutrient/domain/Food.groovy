@@ -1,7 +1,5 @@
 package com.atimbo.fitness.nutrient.domain
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference
-import com.fasterxml.jackson.annotation.JsonIgnore
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 

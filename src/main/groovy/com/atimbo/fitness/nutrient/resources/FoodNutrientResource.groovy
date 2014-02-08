@@ -17,26 +17,30 @@ import javax.ws.rs.Produces
 import javax.ws.rs.QueryParam
 import javax.ws.rs.core.MediaType
 
-@Path("/nutrient")
+@Path('/nutrient')
 @Produces(MediaType.APPLICATION_JSON)
 class FoodNutrientResource {
-    private FoodDAO foodDAO
-    private FoodNutrientDAO foodNutrientDAO
-    private NutrientDefinitionDAO nutrientDefinitionDAO
+    // TODO: move usages of DAOs out of the resource into modules
 
-    FoodNutrientResource(FoodDAO foodDAO, FoodNutrientDAO foodNutrientDAO, NutrientDefinitionDAO nutrientDefinitionDAO) {
-        this.foodDAO = foodDAO
-        this.foodNutrientDAO = foodNutrientDAO
-        this.nutrientDefinitionDAO = nutrientDefinitionDAO
+    private final FoodDAO FOOD_DAO
+    private final FoodNutrientDAO FOOD_NUTRIENT_DAO
+    private final NutrientDefinitionDAO NUTRIENT_DEFINITION_DAO
+
+    FoodNutrientResource(FoodDAO foodDAO,
+                         FoodNutrientDAO foodNutrientDAO,
+                         NutrientDefinitionDAO nutrientDefinitionDAO) {
+        this.FOOD_DAO = foodDAO
+        this.FOOD_NUTRIENT_DAO = foodNutrientDAO
+        this.NUTRIENT_DEFINITION_DAO = nutrientDefinitionDAO
     }
 
-    @Path("/{id}")
+    @Path('/{id}')
     @GET
     @Timed
     @UnitOfWork
     public List<FoodNutrient> findNutrientsByFood(@PathParam('id') LongParam id) {
-        Food food = foodDAO.findById(id.get())
-        return foodNutrientDAO.findAllByFood(food)
+        Food food = FOOD_DAO.findById(id.get())
+        return FOOD_NUTRIENT_DAO.findAllByFood(food)
     }
 
     @GET
@@ -44,9 +48,9 @@ class FoodNutrientResource {
     @UnitOfWork
     public FoodNutrient findByFoodAndDefinition(@QueryParam('foodId') String foodId,
                                                 @QueryParam('definitionId') String definitionId) {
-        Food food = foodDAO.findById(foodId.toLong())
-        NutrientDefinition definition = nutrientDefinitionDAO.findById(definitionId.toLong())
-        return foodNutrientDAO.findByFoodAndDefinition(food, definition)
+        Food food = FOOD_DAO.findById(foodId.toLong())
+        NutrientDefinition definition = NUTRIENT_DEFINITION_DAO.findById(definitionId.toLong())
+        return FOOD_NUTRIENT_DAO.findByFoodAndDefinition(food, definition)
     }
 
 }
