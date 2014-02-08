@@ -18,7 +18,7 @@ buildscript {
 }
 
 //apply plugin: 'cobertura'
-apply plugin: 'codenarc'
+//apply plugin: 'codenarc'
 apply plugin: 'groovy'
 
 apply plugin: 'maven'
@@ -31,7 +31,7 @@ apply plugin: 'shadow'
 apply plugin: 'application'
 
 // Run code narc before the test phase begins
-test.dependsOn codenarcMain
+//test.dependsOn codenarcMain
 
 repositories {
     mavenLocal()
@@ -75,12 +75,12 @@ jar {
         attributes 'Implementation-Vendor-Id': project.group
     }
 }
-
+/*
 codenarc {
     configFile = rootProject.file('codenarcrule.groovy')
     reportFormat = System.properties['codeNarcOutput'] ?: 'html'
 }
-
+*/
 shadow {
     exclude 'META-INF/*.DSA'
     exclude 'META-INF/*.RSA'
