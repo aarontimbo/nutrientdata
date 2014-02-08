@@ -28,6 +28,8 @@ version = "${currentVersion}"
 
 apply plugin: 'shadow'
 
+apply plugin: 'application'
+
 // Run code narc before the test phase begins
 test.dependsOn codenarcMain
 
@@ -39,7 +41,7 @@ repositories {
 }
 
 // The main class of the application
-//mainClassName = 'com.atimbo.fitness.nutrient.NutrientDataService'
+mainClassName = 'com.atimbo.fitness.nutrient.NutrientDataService'
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
@@ -90,6 +92,7 @@ shadow {
     exclude 'META-INF/*.RSA'
 }
 
+/*
 task run(dependsOn: 'shadow', group: 'dropwizard',  description: "Run service using dev configuration") << {
     // Grab any dw. properties that are specified on the command line and pass to the Java process (i.e. dw.http.port=8080)
     def props = project.ext.properties.findAll { it.key.startsWith('dw') }
@@ -99,7 +102,7 @@ task run(dependsOn: 'shadow', group: 'dropwizard',  description: "Run service us
         systemProperties = props
     }
 }
-
+  */
 task migrate(dependsOn: 'shadow', group: 'dropwizard', description: "Run migrations using the dev configuration") << {
     javaexec {
         main = '-jar'
@@ -113,3 +116,5 @@ task dropAll(dependsOn: 'shadow', group: 'dropwizard',  description: "Run drop-a
         args = ["${shadow.shadowJar.getPath()}", 'db', 'drop-all', 'dev_config.yml', '--confirm-delete-everything']
     }
 }
+
+task stage(dependsOn: ['clean', 'installApp'])
