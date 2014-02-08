@@ -11,13 +11,13 @@ buildscript {
         }
     }
     dependencies {
-        classpath "net.saliman:gradle-cobertura-plugin:1.1.0"
+        //classpath "net.saliman:gradle-cobertura-plugin:1.1.0"
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:2.0.16'
         classpath 'org.gradle.plugins:shadow:0.6'
     }
 }
 
-apply plugin: 'cobertura'
+//apply plugin: 'cobertura'
 apply plugin: 'codenarc'
 apply plugin: 'groovy'
 
@@ -74,12 +74,6 @@ jar {
         attributes 'Implementation-Version': project.version
         attributes 'Implementation-Vendor-Id': project.group
     }
-}
-
-cobertura {
-    coverageFormats = ['xml', 'html']
-    coverageIncludes = ['**/*.java', '**/*.groovy']
-    coverageSourceDirs = [sourceSets.main.allSource.srcDirs]
 }
 
 codenarc {
