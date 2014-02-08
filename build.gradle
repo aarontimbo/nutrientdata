@@ -1,7 +1,3 @@
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.10'
-}
-
 buildscript {
     repositories {
         mavenLocal()
@@ -114,4 +110,4 @@ task dropAll(dependsOn: 'shadow', group: 'dropwizard',  description: "Run drop-a
     }
 }
 
-task stage(dependsOn: ['wrapper', 'shadow', 'clean', 'installApp'], description: "Heroku runs this by default")
+task stage(dependsOn: ['shadow', 'clean', 'installApp'], description: "Heroku runs this by default")
