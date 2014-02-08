@@ -4,16 +4,19 @@ http:
 
 database:
   # the name of your JDBC driver
-  driverClass: com.mysql.jdbc.Driver
+  #driverClass: com.mysql.jdbc.Driver
+  driverClass: org.postgresql.Driver
 
   # the username
-  user: mysql
+  #user: mysql
+  user: ast
 
   # the password
-  password: mysql
+  #password: mysql
 
   # the JDBC URL
-  url: jdbc:mysql://localhost:3306/fitness
+  #url: jdbc:mysql://localhost:3306/fitness
+  url: jdbc:postgresql://localhost:5432/usda_sr25
 
   # any properties specific to your JDBC driver:
   properties:

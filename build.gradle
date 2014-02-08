@@ -51,7 +51,10 @@ dependencies {
 
     compile 'org.eclipse.jetty:jetty-servlets:8.1.8.v20121106'
     compile 'com.sun.jersey:jersey-client:1.18'
-    compile 'mysql:mysql-connector-java:5.1.25'
+
+    // DB
+    //compile 'mysql:mysql-connector-java:5.1.25'
+    compile 'org.postgresql:postgresql:9.3-1100-jdbc4'
 
     testCompile "com.yammer.dropwizard:dropwizard-testing:${dropwizardVersion}"
     testCompile "org.spockframework:spock-core:${spockVersion}"

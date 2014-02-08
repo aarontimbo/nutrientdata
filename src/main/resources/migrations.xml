@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <!--<changeSet author="ast (generated)" id="1370402366850-1">
+    <changeSet author="ast (generated)" id="1370402366850-1">
         <createTable tableName="food_description">
             <column name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -21,7 +21,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="common_name" type="VARCHAR(100)"/>
-            <column name="manufactuer_name" type="VARCHAR(65)"/>
+            <column name="manufacturer_name" type="VARCHAR(65)"/>
         </createTable>
     </changeSet>
     <changeSet author="ast (generated)" id="1370402366850-2">
@@ -35,13 +35,24 @@
         </createTable>
     </changeSet>
     <changeSet author="ast (generated)" id="1370402366850-3">
-        <addForeignKeyConstraint baseColumnNames="food_group_id" baseTableName="food_description" baseTableSchemaName="usda_sr25" constraintName="food_group_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="food_group" referencedTableSchemaName="usda_sr25" referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="food_group_id"
+                                 baseTableName="food_description"
+                                 baseTableSchemaName="usda_sr25"
+                                 constraintName="food_group_FK"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="food_group"
+                                 referencedTableSchemaName="usda_sr25"
+                                 referencesUniqueColumn="false"/>
     </changeSet>
     <changeSet author="ast (generated)" id="1370402366850-4">
         <createIndex indexName="description_UNIQUE" tableName="food_group" unique="true">
             <column name="description"/>
         </createIndex>
-    </changeSet> -->
+    </changeSet>
 
     <changeSet id="add-food-nutrient-table" author="ast">
         <createTable tableName="food_nutrient">
@@ -81,8 +92,28 @@
                        tableName="food_nutrient"/>
     </changeSet>
     <changeSet author="ast" id="addForeignKey-food-nutrient">
-        <addForeignKeyConstraint baseColumnNames="food_id" baseTableName="food_nutrient" baseTableSchemaName="usda_sr25" constraintName="food_nutrient_food_description_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="food_description" referencedTableSchemaName="usda_sr25" referencesUniqueColumn="false"/>
-        <addForeignKeyConstraint baseColumnNames="nutrient_id" baseTableName="food_nutrient" baseTableSchemaName="usda_sr25" constraintName="food_nutrient_nutrient_definition_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="nutrient_definition" referencedTableSchemaName="usda_sr25" referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="food_id"
+                                 baseTableName="food_nutrient"
+                                 baseTableSchemaName="usda_sr25"
+                                 constraintName="food_nutrient_food_description_FK"
+                                 deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="food_description"
+                                 referencedTableSchemaName="usda_sr25"
+                                 referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="nutrient_id"
+                                 baseTableName="food_nutrient"
+                                 baseTableSchemaName="usda_sr25"
+                                 constraintName="food_nutrient_nutrient_definition_FK"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="nutrient_definition"
+                                 referencedTableSchemaName="usda_sr25"
+                                 referencesUniqueColumn="false"/>
     </changeSet>
     <changeSet author="ast" id="add-nutrient-definition-table">
         <createTable tableName="nutrient_definition">
@@ -131,6 +162,17 @@
                        tableName="food_weight"/>
     </changeSet>
     <changeSet author="ast" id="addForeignKey-food-weight">
-        <addForeignKeyConstraint baseColumnNames="food_id" baseTableName="food_weight" baseTableSchemaName="usda_sr25" constraintName="food_weight_food_description_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="food_description" referencedTableSchemaName="usda_sr25" referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="food_id"
+                                 baseTableName="food_weight"
+                                 baseTableSchemaName="usda_sr25"
+                                 constraintName="food_weight_food_description_FK"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="food_description"
+                                 referencedTableSchemaName="usda_sr25"
+                                 referencesUniqueColumn="false"/>
     </changeSet>
 </databaseChangeLog>
