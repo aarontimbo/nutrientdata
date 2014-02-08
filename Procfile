@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Ddw.http.port=$PORT -Ddw.http.adminPort=$PORT -jar build/libs/nutrientdata-shadow-0.1-SNAPSHOT.jar server config-heroku.yml
+web: java $JAVA_OPTS -Ddw.http.port=$PORT -Ddw.http.adminPort=$PORT -jar build/libs/nutrientdata-shadow-0.1.0-SNAPSHOT-fat.jar server config-heroku.yml
