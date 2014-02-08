@@ -114,4 +114,4 @@ task dropAll(dependsOn: 'shadow', group: 'dropwizard',  description: "Run drop-a
     }
 }
 
-task stage(dependsOn: ['shadow', 'clean', 'installApp'])
+task stage(dependsOn: ['wrapper', 'shadow', 'clean', 'installApp'], description: "Heroku runs this by default")
