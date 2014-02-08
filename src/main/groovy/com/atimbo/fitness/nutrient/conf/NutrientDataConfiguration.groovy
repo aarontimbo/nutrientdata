@@ -11,7 +11,7 @@ class NutrientDataConfiguration extends Configuration {
     @Valid
     @NotNull
     @JsonProperty
-    private final DatabaseConfiguration database = new DatabaseConfiguration()
+    private DatabaseConfiguration database = NutrientDataDatabaseConfiguration.create(System.getenv("DATABASE_URL"));
 
     public DatabaseConfiguration getDatabaseConfiguration() {
         return database
