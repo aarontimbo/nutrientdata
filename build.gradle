@@ -91,7 +91,6 @@ shadow {
     exclude 'META-INF/*.DSA'
     exclude 'META-INF/*.RSA'
 }
-
 /*
 task run(dependsOn: 'shadow', group: 'dropwizard',  description: "Run service using dev configuration") << {
     // Grab any dw. properties that are specified on the command line and pass to the Java process (i.e. dw.http.port=8080)
@@ -117,4 +116,4 @@ task dropAll(dependsOn: 'shadow', group: 'dropwizard',  description: "Run drop-a
     }
 }
 
-task stage(dependsOn: ['clean', 'installApp'])
+task stage(dependsOn: ['shadow', 'clean', 'installApp'])
