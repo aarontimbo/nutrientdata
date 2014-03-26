@@ -2,6 +2,7 @@ package com.atimbo.fitness.nutrient.dao
 
 import com.atimbo.fitness.nutrient.domain.Food
 import com.atimbo.fitness.nutrient.domain.FoodGroup
+import spock.lang.Unroll
 
 import javax.persistence.EntityNotFoundException
 
@@ -42,7 +43,8 @@ class FoodDAOSpec extends DatabaseSpecification {
 
     }
 
-    void 'find all retrieves a list of foods'() {
+    @Unroll
+    void 'find #findBy retrieves an expected list of foods'() {
         given: 'a food'
         FoodGroup foodGroup = new FoodGroup(description: 'meat')
         foodGroupDAO.saveOrUpdate(foodGroup)
@@ -60,13 +62,22 @@ class FoodDAOSpec extends DatabaseSpecification {
                 foodGroup: foodGroup
         )
         foodDAO.saveOrUpdate(food)
+        List<Food> foods = []
 
-        when: 'retrieving all foods'
-        List<Food> foods = foodDAO.findAll()
+        when: 'retrieving foods'
+        if (description) {
+            foods = foodDAO.findAllByDescription(description)
+        } else {
+            foods = foodDAO.findAll()
+        }
 
         then: 'a list of foods is returned'
-        foods.size() == 2
+        foods.size() == expectedListSize
 
+        where:
+        findBy          | description   || expectedListSize
+        'all'           | null          || 2
+        'by pork chop'  | 'pork'        || 1
     }
 
     void 'retrieving a food that does not exist throws an error'() {
@@ -80,7 +91,5 @@ class FoodDAOSpec extends DatabaseSpecification {
         thrown(EntityNotFoundException)
 
     }
-
-
 
 }

@@ -2,8 +2,8 @@ package com.atimbo.fitness.nutrient.dao
 
 import com.atimbo.fitness.nutrient.domain.Food
 import com.yammer.dropwizard.hibernate.AbstractDAO
-import org.hibernate.Query
 import org.hibernate.SessionFactory
+import org.hibernate.criterion.Restrictions
 
 import javax.persistence.EntityNotFoundException
 
@@ -33,15 +33,14 @@ class FoodDAO extends AbstractDAO<Food> {
     }
 
     public List<Food> findAll() {
-        Query query = super.currentSession().getNamedQuery('com.atimbo.fitness.nutrient.domain.Food.findAll')
-        return list(query)
+        return criteria().list()
     }
 
     public List<Food> findAllByDescription(String foodDescription) {
-        Query query = super.currentSession()
-                .getNamedQuery('com.atimbo.fitness.nutrient.domain.Food.findAllByDescription')
-        query.setParameter('description', QUERY_WILDCARD + foodDescription + QUERY_WILDCARD)
-        return list(query)
+        String searchStr = QUERY_WILDCARD + foodDescription + QUERY_WILDCARD
+        return criteria().add(
+                Restrictions.like('longDescription', searchStr)
+        ).list()
     }
 
 }
