@@ -16,12 +16,6 @@ import javax.persistence.Table
  */
 @Entity
 @Table(name = 'nutrient_definition')
-@NamedQueries([
-@NamedQuery(
-        name = 'com.atimbo.fitness.nutrient.domain.NutrientDefinition.findAll',
-        query = 'select nd from NutrientDefinition nd'
-    )
-])
 @ToString
 @EqualsAndHashCode
 class NutrientDefinition {

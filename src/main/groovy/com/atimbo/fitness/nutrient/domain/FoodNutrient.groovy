@@ -20,16 +20,6 @@ import javax.persistence.Table
  */
 @Entity
 @Table(name = 'food_nutrient')
-@NamedQueries([
-    @NamedQuery(
-            name = 'com.atimbo.fitness.nutrient.domain.FoodNutrient.findAllByFood',
-            query = 'select fn from FoodNutrient fn where fn.food = :food'
-    ),
-    @NamedQuery(
-            name = 'com.atimbo.fitness.nutrient.domain.FoodNutrient.findByFoodAndDefinition',
-            query = 'select fn from FoodNutrient fn where fn.food = :food and fn.definition = :definition'
-    )
-])
 @ToString
 @EqualsAndHashCode
 class FoodNutrient implements Serializable {
