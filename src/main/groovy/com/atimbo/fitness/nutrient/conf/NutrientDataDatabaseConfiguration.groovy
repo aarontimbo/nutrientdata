@@ -4,10 +4,15 @@ import com.yammer.dropwizard.db.DatabaseConfiguration
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+/**
+ * Nutrient data database configuration
+ */
 class NutrientDataDatabaseConfiguration {
 
-    final static String REQUIRE_SSL = '?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory'
-    final static Logger logger = LoggerFactory.getLogger(NutrientDataDatabaseConfiguration.class);
+    private static final String SEPARATOR = ':'
+
+    private static final String REQUIRE_SSL = '?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory'
+    private static final Logger LOGGER = LoggerFactory.getLogger(NutrientDataDatabaseConfiguration)
 
     public static DatabaseConfiguration create(String databaseUrl) {
         // Use configuration file
@@ -16,15 +21,16 @@ class NutrientDataDatabaseConfiguration {
             try {
                 // Override configuration from config file with environment variable data
                 URI dbUri = new URI(databaseUrl)
-                String user = dbUri.getUserInfo().split(":")[0]
-                String password = dbUri.getUserInfo().split(":")[1]
-                String url = 'jdbc:postgresql://' + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + REQUIRE_SSL
+                String user = dbUri.userInfo.split(SEPARATOR)[0]
+                String password = dbUri.userInfo.split(SEPARATOR)[1]
+                String url = 'jdbc:postgresql://' + dbUri.host + SEPARATOR +
+                             dbUri.port + dbUri.path + REQUIRE_SSL
                 databaseConfiguration.user = user
                 databaseConfiguration.password = password
                 databaseConfiguration.url = url
                 databaseConfiguration.driverClass = 'org.postgresql.Driver'
             } catch (URISyntaxException e) {
-                logger.info(e.getMessage())
+                LOGGER.info(e.message)
             }
         }
         return databaseConfiguration

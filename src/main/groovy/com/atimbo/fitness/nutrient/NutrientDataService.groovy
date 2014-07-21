@@ -6,7 +6,11 @@ import com.atimbo.fitness.nutrient.dao.FoodGroupDAO
 import com.atimbo.fitness.nutrient.dao.FoodNutrientDAO
 import com.atimbo.fitness.nutrient.dao.FoodWeightDAO
 import com.atimbo.fitness.nutrient.dao.NutrientDefinitionDAO
-import com.atimbo.fitness.nutrient.domain.*
+import com.atimbo.fitness.nutrient.domain.Food
+import com.atimbo.fitness.nutrient.domain.FoodGroup
+import com.atimbo.fitness.nutrient.domain.FoodNutrient
+import com.atimbo.fitness.nutrient.domain.FoodWeight
+import com.atimbo.fitness.nutrient.domain.NutrientDefinition
 import com.atimbo.fitness.nutrient.resources.FoodGroupResource
 import com.atimbo.fitness.nutrient.resources.FoodNutrientResource
 import com.atimbo.fitness.nutrient.resources.FoodResource
@@ -19,16 +23,18 @@ import com.yammer.dropwizard.config.Bootstrap
 import com.yammer.dropwizard.config.Environment
 import com.yammer.dropwizard.config.FilterBuilder
 
-//import com.yammer.dropwizard.config.FilterBuilder
 import com.yammer.dropwizard.db.DatabaseConfiguration
 import com.yammer.dropwizard.hibernate.HibernateBundle
 import com.yammer.dropwizard.hibernate.SessionFactoryFactory
 import com.yammer.dropwizard.migrations.MigrationsBundle
 import org.eclipse.jetty.servlets.CrossOriginFilter
 
-//import org.eclipse.jetty.servlets.CrossOriginFilter
-
+/**
+ * Service providing endpoints for food nutrient data
+ */
 class NutrientDataService extends Service<NutrientDataConfiguration> {
+
+    private static final int SIXTY = 60
 
     public static final List<Class<?>> SERVICE_ENTITIES = [
             Food,
@@ -72,8 +78,8 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
         environment.addResource(new NutrientDataResource())
 
         // Add response headers via a filter
-        FilterBuilder filterConfig = environment.addFilter(CrossOriginFilter, "/*")
-        filterConfig.setInitParam(CrossOriginFilter.PREFLIGHT_MAX_AGE_PARAM, String.valueOf(60*60*24))
+        FilterBuilder filterConfig = environment.addFilter(CrossOriginFilter, '/*')
+        filterConfig.setInitParam(CrossOriginFilter.PREFLIGHT_MAX_AGE_PARAM, String.valueOf(SIXTY * SIXTY * 24))
         filterConfig.setInitParam(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, '*')
 
         final FoodDAO FOOD_DAO = new FoodDAO(hibernate.sessionFactory)

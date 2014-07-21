@@ -7,15 +7,17 @@ import com.yammer.dropwizard.db.DatabaseConfiguration
 import javax.validation.Valid
 import javax.validation.constraints.NotNull
 
+/**
+ * Nutrient data database configuration
+ */
 class NutrientDataConfiguration extends Configuration {
     @Valid
     @NotNull
     @JsonProperty
-    private DatabaseConfiguration database = NutrientDataDatabaseConfiguration.create(System.getenv("DATABASE_URL"));
+    private final DatabaseConfiguration database =
+        NutrientDataDatabaseConfiguration.create(System.getenv('DATABASE_URL'))
 
     public DatabaseConfiguration getDatabaseConfiguration() {
         return database
     }
-
-
 }

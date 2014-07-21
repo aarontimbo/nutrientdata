@@ -2,8 +2,7 @@ import org.gradle.api.plugins.shadow.ShadowPlugin
 import org.gradle.api.plugins.shadow.transformers.ServiceFileTransformer
 
 apply plugin: 'groovy'
-//apply plugin: 'cobertura'
-//apply plugin: 'codenarc'
+apply plugin: 'codenarc'
 apply plugin: 'application'
 apply plugin: 'project-report'
 apply plugin: 'idea'
@@ -33,7 +32,6 @@ buildscript {
         }
     }
     dependencies {
-        classpath "net.saliman:gradle-cobertura-plugin:1.1.0"
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:2.0.16'
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.0.2'
         classpath 'org.gradle.plugins:shadow:0.7.4'
@@ -41,7 +39,7 @@ buildscript {
 }
 
 // Run code narc before the test phase begins
-//test.dependsOn codenarcMain
+test.dependsOn codenarcMain
 
 repositories {
     mavenLocal()
@@ -84,17 +82,10 @@ jar {
     }
 }
 
-//cobertura {
-//    coverageFormats = ['xml', 'html']
-//    coverageIncludes = ['**/*.java', '**/*.groovy']
-//    coverageSourceDirs = [sourceSets.main.allSource.srcDirs]
-//}
-/*
 codenarc {
     configFile = rootProject.file('codenarcrule.groovy')
     reportFormat = System.properties['codeNarcOutput'] ?: 'html'
 }
-*/
 
 shadow {
     exclude 'META-INF/*.DSA'
