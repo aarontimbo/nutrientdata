@@ -7,6 +7,9 @@ import org.hibernate.criterion.Restrictions
 
 import javax.persistence.EntityNotFoundException
 
+/**
+ * Accessor methods for {@link Food} entity
+ */
 class FoodDAO extends AbstractDAO<Food> {
 
     static final String QUERY_WILDCARD = '%'
