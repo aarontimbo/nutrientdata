@@ -32,7 +32,7 @@ class FoodDAO extends AbstractDAO<Food> {
         if (!food) {
             throw new EntityNotFoundException("Could not find food with id: ${id}")
         }
-        return get(id)
+        return food
     }
 
     public List<Food> findAll() {

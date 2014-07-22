@@ -20,9 +20,7 @@ class FoodNutrientDAO extends AbstractDAO<FoodNutrient> {
     }
 
     public List<FoodNutrient> findAllByFood(Food food) {
-        return criteria().add(
-                Restrictions.eq('food', food)
-        ).list()
+        return criteria().add(Restrictions.eq('food', food)).list()
     }
 
     public FoodNutrient findByFoodAndDefinition(Food food, NutrientDefinition definition) {

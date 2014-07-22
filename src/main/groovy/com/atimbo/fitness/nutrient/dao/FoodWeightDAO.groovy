@@ -5,6 +5,7 @@ import com.atimbo.fitness.nutrient.domain.FoodWeight
 import com.yammer.dropwizard.hibernate.AbstractDAO
 import org.hibernate.Query
 import org.hibernate.SessionFactory
+import org.hibernate.criterion.Restrictions
 
 /**
  * Accessor methods for {@link FoodWeight} entity
@@ -16,10 +17,7 @@ class FoodWeightDAO extends AbstractDAO<FoodWeight> {
     }
 
     public List<FoodWeight> findAllByFood(Food food) {
-        Query query = super.currentSession()
-                .getNamedQuery('com.atimbo.fitness.nutrient.domain.FoodWeight.findAllByFood')
-        query.setParameter('food', food)
-        return list(query)
+        return criteria().add(Restrictions.eq('food', food)).list()
     }
 
 }
