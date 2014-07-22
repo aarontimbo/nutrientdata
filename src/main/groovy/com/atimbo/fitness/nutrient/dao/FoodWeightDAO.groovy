@@ -6,6 +6,9 @@ import com.yammer.dropwizard.hibernate.AbstractDAO
 import org.hibernate.Query
 import org.hibernate.SessionFactory
 
+/**
+ * Accessor methods for {@link FoodWeight} entity
+ */
 class FoodWeightDAO extends AbstractDAO<FoodWeight> {
 
     public FoodWeightDAO(SessionFactory factory) {

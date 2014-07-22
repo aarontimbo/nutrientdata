@@ -15,7 +15,6 @@ import com.atimbo.fitness.nutrient.resources.FoodGroupResource
 import com.atimbo.fitness.nutrient.resources.FoodNutrientResource
 import com.atimbo.fitness.nutrient.resources.FoodResource
 import com.atimbo.fitness.nutrient.resources.FoodWeightResource
-import com.atimbo.fitness.nutrient.resources.NutrientDataResource
 import com.atimbo.fitness.nutrient.resources.NutrientDefinitionResource
 import com.google.common.collect.ImmutableList
 import com.yammer.dropwizard.Service
@@ -75,7 +74,6 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
 
     @Override
     void run(NutrientDataConfiguration configuration, Environment environment) throws ClassNotFoundException {
-        environment.addResource(new NutrientDataResource())
 
         // Add response headers via a filter
         FilterBuilder filterConfig = environment.addFilter(CrossOriginFilter, '/*')

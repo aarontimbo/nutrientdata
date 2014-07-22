@@ -5,6 +5,9 @@ import com.yammer.dropwizard.hibernate.AbstractDAO
 import org.hibernate.Query
 import org.hibernate.SessionFactory
 
+/**
+ * Accessor methods for {@link NutrientDefinition} entity
+ */
 class NutrientDefinitionDAO extends AbstractDAO<NutrientDefinition> {
 
     public NutrientDefinitionDAO(SessionFactory factory) {

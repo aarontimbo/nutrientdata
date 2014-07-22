@@ -3,8 +3,21 @@ package com.atimbo.fitness.nutrient.domain
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.FetchType
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.NamedQueries
+import javax.persistence.NamedQuery
+import javax.persistence.Table
 
+/**
+ * Food entity providing data about a food.
+ */
 @Entity
 @Table(name = 'food_description')
 @NamedQueries([

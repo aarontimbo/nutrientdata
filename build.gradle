@@ -38,6 +38,8 @@ buildscript {
     }
 }
 
+codenarcTest.enabled = false
+
 // Run code narc before the test phase begins
 test.dependsOn codenarcMain
 

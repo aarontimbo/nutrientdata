@@ -7,6 +7,9 @@ import com.yammer.dropwizard.hibernate.AbstractDAO
 import org.hibernate.Query
 import org.hibernate.SessionFactory
 
+/**
+ * Accessor methods for {@link FoodNutrient} entity
+ */
 class FoodNutrientDAO extends AbstractDAO<FoodNutrient> {
 
     static final String FOOD_PARAM = 'food'
