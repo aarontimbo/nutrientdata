@@ -4,7 +4,6 @@ import com.atimbo.fitness.nutrient.domain.Food
 import com.atimbo.fitness.nutrient.domain.FoodNutrient
 import com.atimbo.fitness.nutrient.domain.NutrientDefinition
 import com.yammer.dropwizard.hibernate.AbstractDAO
-import org.hibernate.Query
 import org.hibernate.SessionFactory
 import org.hibernate.criterion.Restrictions
 
@@ -20,12 +19,12 @@ class FoodNutrientDAO extends AbstractDAO<FoodNutrient> {
     }
 
     public List<FoodNutrient> findAllByFood(Food food) {
-        return criteria().add(Restrictions.eq('food', food)).list()
+        return criteria().add(Restrictions.eq(FOOD_PARAM, food)).list()
     }
 
     public FoodNutrient findByFoodAndDefinition(Food food, NutrientDefinition definition) {
         return criteria()
-                .add(Restrictions.eq('food', food))
+                .add(Restrictions.eq(FOOD_PARAM, food))
                 .add(Restrictions.eq('definition', definition)
         ).uniqueResult()
     }

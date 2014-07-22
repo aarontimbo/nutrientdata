@@ -2,14 +2,13 @@ package com.atimbo.fitness.nutrient.dao
 
 import com.atimbo.fitness.nutrient.domain.NutrientDefinition
 import com.yammer.dropwizard.hibernate.AbstractDAO
-import org.hibernate.Query
 import org.hibernate.SessionFactory
+
+import javax.persistence.EntityNotFoundException
 
 /**
  * Accessor methods for {@link NutrientDefinition} entity
  */
-import javax.persistence.EntityNotFoundException
-
 class NutrientDefinitionDAO extends AbstractDAO<NutrientDefinition> {
 
     public NutrientDefinitionDAO(SessionFactory factory) {
