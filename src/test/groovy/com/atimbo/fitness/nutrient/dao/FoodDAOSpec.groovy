@@ -80,16 +80,4 @@ class FoodDAOSpec extends DatabaseSpecification {
         'by pork chop'  | 'pork'        || 1
     }
 
-    void 'retrieving a food that does not exist throws an error'() {
-        given: 'food that does not exist'
-        Long nonExistentFoodId = 999
-
-        when:
-        foodDAO.findById(nonExistentFoodId)
-
-        then:
-        thrown(EntityNotFoundException)
-
-    }
-
 }

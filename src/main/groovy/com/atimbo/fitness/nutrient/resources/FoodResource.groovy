@@ -1,7 +1,7 @@
 package com.atimbo.fitness.nutrient.resources
 
-import com.atimbo.fitness.nutrient.dao.FoodDAO
 import com.atimbo.fitness.nutrient.domain.Food
+import com.atimbo.fitness.nutrient.modules.FoodModule
 import com.yammer.dropwizard.hibernate.UnitOfWork
 import com.yammer.dropwizard.jersey.params.LongParam
 import com.yammer.metrics.annotation.Timed
@@ -18,19 +18,17 @@ import javax.ws.rs.core.MediaType
 @Path('/food')
 @Produces(MediaType.APPLICATION_JSON)
 class FoodResource {
-    // TODO: move usages of DAOs out of the resource into modules
+    private final FoodModule foodModule
 
-    private final FoodDAO FOOD_DAO
-
-    public FoodResource(FoodDAO foodDAO) {
-        this.FOOD_DAO = foodDAO
+    public FoodResource(FoodModule foodModule) {
+        this.foodModule = foodModule
     }
 
     @GET
     @Timed
     @UnitOfWork(transactional = false)
     public List<Food> findAllFoods() {
-        return FOOD_DAO.findAll()
+        return foodModule.findAll()
     }
 
     @Path('/{id}')
@@ -38,7 +36,7 @@ class FoodResource {
     @Timed
     @UnitOfWork
     public Food findFood(@PathParam('id') LongParam id) {
-        return FOOD_DAO.findById(id.get())
+        return foodModule.findById(id.get())
     }
 
     @Path('/filter/{description}')
@@ -46,7 +44,7 @@ class FoodResource {
     @Timed
     @UnitOfWork
     public List<Food> findAllByDescription(@PathParam('description') String description) {
-        return FOOD_DAO.findAllByDescription(description)
+        return foodModule.findAllByDescription(description)
     }
 
 }

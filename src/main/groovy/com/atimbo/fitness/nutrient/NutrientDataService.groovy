@@ -11,6 +11,7 @@ import com.atimbo.fitness.nutrient.domain.FoodGroup
 import com.atimbo.fitness.nutrient.domain.FoodNutrient
 import com.atimbo.fitness.nutrient.domain.FoodWeight
 import com.atimbo.fitness.nutrient.domain.NutrientDefinition
+import com.atimbo.fitness.nutrient.modules.FoodModule
 import com.atimbo.fitness.nutrient.resources.FoodGroupResource
 import com.atimbo.fitness.nutrient.resources.FoodNutrientResource
 import com.atimbo.fitness.nutrient.resources.FoodResource
@@ -80,16 +81,17 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
         filterConfig.setInitParam(CrossOriginFilter.PREFLIGHT_MAX_AGE_PARAM, String.valueOf(SIXTY * SIXTY * 24))
         filterConfig.setInitParam(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, '*')
 
-        final FoodDAO FOOD_DAO = new FoodDAO(hibernate.sessionFactory)
-        final FoodGroupDAO FOOD_GROUP_DAO = new FoodGroupDAO(hibernate.sessionFactory)
-        final FoodNutrientDAO FOOD_NUTRIENT_DAO = new FoodNutrientDAO(hibernate.sessionFactory)
-        final FoodWeightDAO FOOD_WEIGHT_DAO = new FoodWeightDAO(hibernate.sessionFactory)
-        final NutrientDefinitionDAO NUTRIENT_DEFINITION_DAO = new NutrientDefinitionDAO(hibernate.sessionFactory)
-        environment.addResource(new FoodResource(FOOD_DAO))
-        environment.addResource(new FoodGroupResource(FOOD_GROUP_DAO))
-        environment.addResource(new FoodNutrientResource(FOOD_DAO, FOOD_NUTRIENT_DAO, NUTRIENT_DEFINITION_DAO))
-        environment.addResource(new FoodWeightResource(FOOD_DAO, FOOD_WEIGHT_DAO))
-        environment.addResource(new NutrientDefinitionResource(NUTRIENT_DEFINITION_DAO))
+        FoodDAO foodDAO = new FoodDAO(hibernate.sessionFactory)
+        FoodModule foodModule = new FoodModule(foodDAO)
+        FoodGroupDAO foodGroupDAO = new FoodGroupDAO(hibernate.sessionFactory)
+        FoodNutrientDAO foodNutrientDAO = new FoodNutrientDAO(hibernate.sessionFactory)
+        FoodWeightDAO foodWeightDAO = new FoodWeightDAO(hibernate.sessionFactory)
+        NutrientDefinitionDAO nutrientDefinitionDAO = new NutrientDefinitionDAO(hibernate.sessionFactory)
+        environment.addResource(new FoodResource(foodModule))
+        environment.addResource(new FoodGroupResource(foodGroupDAO))
+        environment.addResource(new FoodNutrientResource(foodDAO, foodNutrientDAO, nutrientDefinitionDAO))
+        environment.addResource(new FoodWeightResource(foodDAO, foodWeightDAO))
+        environment.addResource(new NutrientDefinitionResource(nutrientDefinitionDAO))
     }
 
     @Override
