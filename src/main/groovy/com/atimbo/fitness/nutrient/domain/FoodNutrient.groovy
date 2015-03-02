@@ -9,8 +9,6 @@ import javax.persistence.FetchType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
-import javax.persistence.NamedQueries
-import javax.persistence.NamedQuery
 import javax.persistence.OneToOne
 import javax.persistence.Table
 
@@ -20,16 +18,6 @@ import javax.persistence.Table
  */
 @Entity
 @Table(name = 'food_nutrient')
-@NamedQueries([
-    @NamedQuery(
-            name = 'com.atimbo.fitness.nutrient.domain.FoodNutrient.findAllByFood',
-            query = 'select fn from FoodNutrient fn where fn.food = :food'
-    ),
-    @NamedQuery(
-            name = 'com.atimbo.fitness.nutrient.domain.FoodNutrient.findByFoodAndDefinition',
-            query = 'select fn from FoodNutrient fn where fn.food = :food and fn.definition = :definition'
-    )
-])
 @ToString
 @EqualsAndHashCode
 class FoodNutrient implements Serializable {

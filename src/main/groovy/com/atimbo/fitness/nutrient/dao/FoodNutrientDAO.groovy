@@ -6,31 +6,37 @@ import com.atimbo.fitness.nutrient.domain.NutrientDefinition
 import com.yammer.dropwizard.hibernate.AbstractDAO
 import org.hibernate.Query
 import org.hibernate.SessionFactory
+import org.hibernate.criterion.Restrictions
 
 /**
  * Accessor methods for {@link FoodNutrient} entity
  */
 class FoodNutrientDAO extends AbstractDAO<FoodNutrient> {
 
-    static final String FOOD_PARAM = 'food'
+    private static final String FOOD_PARAM = 'food'
 
     public FoodNutrientDAO(SessionFactory factory) {
         super(factory)
     }
 
-    public List<FoodNutrient> findAllByFood(Food food) {
-        Query query = super.currentSession()
-                .getNamedQuery('com.atimbo.fitness.nutrient.domain.FoodNutrient.findAllByFood')
-        query.setParameter(FOOD_PARAM, food)
-        return list(query)
+    /**
+     * Only used for testing
+     * @param foodNutrient
+     * @return
+     */
+    public FoodNutrient saveOrUpdate(FoodNutrient foodNutrient) {
+        persist(foodNutrient)
     }
 
-    public FoodNutrient findByFoodAndDefinition(Food foodDescription, NutrientDefinition definition) {
-        Query query = super.currentSession()
-                .getNamedQuery('com.atimbo.fitness.nutrient.domain.FoodNutrient.findByFoodAndDefinition')
-        query.setParameter(FOOD_PARAM, foodDescription)
-        query.setParameter('definition', definition)
-        return uniqueResult(query)
+    public List<FoodNutrient> findAllByFood(Food food) {
+        return criteria().add(Restrictions.eq(FOOD_PARAM, food)).list()
+    }
+
+    public FoodNutrient findByFoodAndDefinition(Food food, NutrientDefinition definition) {
+        return criteria()
+                .add(Restrictions.eq(FOOD_PARAM, food))
+                .add(Restrictions.eq('definition', definition))
+                .uniqueResult()
     }
 
 }

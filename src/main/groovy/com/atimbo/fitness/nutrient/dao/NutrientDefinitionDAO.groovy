@@ -14,6 +14,15 @@ class NutrientDefinitionDAO extends AbstractDAO<NutrientDefinition> {
         super(factory)
     }
 
+    /**
+     * Only used for testing
+     * @param nutrientDefinition
+     * @return
+     */
+    public NutrientDefinition saveOrUpdate(NutrientDefinition nutrientDefinition) {
+        persist(nutrientDefinition)
+    }
+
     public List<NutrientDefinition> findAll() {
         Query query = super.currentSession()
                 .getNamedQuery('com.atimbo.fitness.nutrient.domain.NutrientDefinition.findAll')

@@ -12,6 +12,7 @@ import com.atimbo.fitness.nutrient.domain.FoodNutrient
 import com.atimbo.fitness.nutrient.domain.FoodWeight
 import com.atimbo.fitness.nutrient.domain.NutrientDefinition
 import com.atimbo.fitness.nutrient.modules.FoodModule
+import com.atimbo.fitness.nutrient.modules.FoodNutrientModule
 import com.atimbo.fitness.nutrient.resources.FoodGroupResource
 import com.atimbo.fitness.nutrient.resources.FoodNutrientResource
 import com.atimbo.fitness.nutrient.resources.FoodResource
@@ -87,9 +88,10 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
         FoodNutrientDAO foodNutrientDAO = new FoodNutrientDAO(hibernate.sessionFactory)
         FoodWeightDAO foodWeightDAO = new FoodWeightDAO(hibernate.sessionFactory)
         NutrientDefinitionDAO nutrientDefinitionDAO = new NutrientDefinitionDAO(hibernate.sessionFactory)
+        FoodNutrientModule foodNutrientModule = new FoodNutrientModule(foodDAO, foodNutrientDAO, nutrientDefinitionDAO)
         environment.addResource(new FoodResource(foodModule))
         environment.addResource(new FoodGroupResource(foodGroupDAO))
-        environment.addResource(new FoodNutrientResource(foodDAO, foodNutrientDAO, nutrientDefinitionDAO))
+        environment.addResource(new FoodNutrientResource(foodNutrientModule))
         environment.addResource(new FoodWeightResource(foodDAO, foodWeightDAO))
         environment.addResource(new NutrientDefinitionResource(nutrientDefinitionDAO))
     }

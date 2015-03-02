@@ -1,18 +1,19 @@
 package com.atimbo.fitness.nutrient.dao
 
+import com.atimbo.fitness.nutrient.dao.builders.FoodBuilder
 import com.atimbo.fitness.nutrient.domain.Food
 import com.atimbo.fitness.nutrient.domain.FoodGroup
 import spock.lang.Unroll
 
-import javax.persistence.EntityNotFoundException
-
 class FoodDAOSpec extends DatabaseSpecification {
 
+    FoodBuilder builder
     FoodDAO foodDAO
     FoodGroupDAO foodGroupDAO
 
     def setup() {
-        foodGroupDAO= new FoodGroupDAO(sessionFactory)
+        builder = new FoodBuilder()
+        foodGroupDAO = new FoodGroupDAO(sessionFactory)
         foodDAO = new FoodDAO(sessionFactory)
     }
 
@@ -27,11 +28,8 @@ class FoodDAOSpec extends DatabaseSpecification {
         given:
         FoodGroup foodGroup = new FoodGroup(description: 'meat')
         foodGroupDAO.saveOrUpdate(foodGroup)
-        Food expectedFood = new Food(
-                longDescription: 'steak',
-                shortDescription: 'steak',
-                foodGroup: foodGroup
-        )
+
+        Food expectedFood = builder.build(foodGroup)
         foodDAO.saveOrUpdate(expectedFood)
         assert expectedFood.id
 
@@ -48,11 +46,7 @@ class FoodDAOSpec extends DatabaseSpecification {
         given: 'a food'
         FoodGroup foodGroup = new FoodGroup(description: 'meat')
         foodGroupDAO.saveOrUpdate(foodGroup)
-        Food food = new Food(
-                longDescription: 'steak',
-                shortDescription: 'steak',
-                foodGroup: foodGroup
-        )
+        Food food = builder.build(foodGroup)
         foodDAO.saveOrUpdate(food)
 
         and: 'another food'
