@@ -21,12 +21,6 @@ import javax.persistence.Transient
  */
 @Entity
 @Table(name = 'food_weight')
-@NamedQueries([
-@NamedQuery(
-        name = 'com.atimbo.fitness.nutrient.domain.FoodWeight.findAllByFood',
-        query = 'select fw from FoodWeight fw where fw.food = :food'
-)
-])
 @ToString
 @EqualsAndHashCode
 class FoodWeight {
