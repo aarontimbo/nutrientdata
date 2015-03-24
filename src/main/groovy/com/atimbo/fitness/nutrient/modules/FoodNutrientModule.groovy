@@ -24,8 +24,7 @@ class FoodNutrientModule {
         this.nutrientDefinitionDAO = nutrientDefinitionDAO
     }
 
-    List<FoodNutrient> findNutrientsByFood(Long id) {
-        Food food = foodDAO.findById(id)
+    List<FoodNutrient> findNutrientsByFood(Food food) {
         return foodNutrientDAO.findAllByFood(food)
     }
 

@@ -1,6 +1,8 @@
 package com.atimbo.fitness.nutrient.resources
 
 import com.atimbo.fitness.nutrient.domain.Food
+import com.atimbo.fitness.nutrient.domain.FoodNutrient
+import com.atimbo.fitness.nutrient.domain.FoodWeight
 import com.atimbo.fitness.nutrient.modules.FoodModule
 import com.yammer.dropwizard.hibernate.UnitOfWork
 import com.yammer.dropwizard.jersey.params.LongParam
@@ -45,6 +47,22 @@ class FoodResource {
     @UnitOfWork
     public List<Food> findAllByDescription(@PathParam('description') String description) {
         return foodModule.findAllByDescription(description)
+    }
+
+    @Path('/{id}/nutrients')
+    @GET
+    @Timed
+    @UnitOfWork
+    public List<FoodNutrient> getNutrients(@PathParam('id') LongParam id) {
+        return foodModule.getNutrients(id.get())
+    }
+
+    @Path('/{id}/weights')
+    @GET
+    @Timed
+    @UnitOfWork
+    public List<FoodWeight> findWeightByFood(@PathParam('id') LongParam id) {
+        return foodModule.getWeights(id.get())
     }
 
 }

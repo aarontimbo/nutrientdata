@@ -83,11 +83,11 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
         filterConfig.setInitParam(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, '*')
 
         FoodDAO foodDAO = new FoodDAO(hibernate.sessionFactory)
-        FoodModule foodModule = new FoodModule(foodDAO)
         FoodGroupDAO foodGroupDAO = new FoodGroupDAO(hibernate.sessionFactory)
         FoodNutrientDAO foodNutrientDAO = new FoodNutrientDAO(hibernate.sessionFactory)
         FoodWeightDAO foodWeightDAO = new FoodWeightDAO(hibernate.sessionFactory)
         NutrientDefinitionDAO nutrientDefinitionDAO = new NutrientDefinitionDAO(hibernate.sessionFactory)
+        FoodModule foodModule = new FoodModule(foodDAO, foodNutrientDAO, foodWeightDAO)
         FoodNutrientModule foodNutrientModule = new FoodNutrientModule(foodDAO, foodNutrientDAO, nutrientDefinitionDAO)
         environment.addResource(new FoodResource(foodModule))
         environment.addResource(new FoodGroupResource(foodGroupDAO))
@@ -96,7 +96,6 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
         environment.addResource(new NutrientDefinitionResource(nutrientDefinitionDAO))
     }
 
-    @Override
     protected List<Class> getServiceEntities() {
         SERVICE_ENTITIES
     }

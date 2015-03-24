@@ -1,5 +1,7 @@
 package com.atimbo.fitness.nutrient.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
@@ -11,6 +13,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToOne
 import javax.persistence.Table
+import javax.persistence.Transient
 
 /**
  * Food nutrient entity providing nutrient data for a {@link Food}
@@ -22,6 +25,7 @@ import javax.persistence.Table
 @EqualsAndHashCode
 class FoodNutrient implements Serializable {
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = 'food_id')
     Food food
@@ -33,5 +37,10 @@ class FoodNutrient implements Serializable {
 
     @Column(name = 'amount_per_100_grams', nullable = false)
     Float amountPer100Grams
+
+    @Transient
+    String getFoodId() {
+        return food.id
+    }
 
 }
