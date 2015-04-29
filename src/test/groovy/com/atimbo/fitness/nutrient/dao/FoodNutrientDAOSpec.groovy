@@ -44,9 +44,10 @@ class FoodNutrientDAOSpec extends DatabaseSpecification {
         NutrientDefinition protein = new NutrientDefinition(id: 1, unit: 'g', description: 'Protein')
         nutrientDefinitionDAO.saveOrUpdate(protein)
         FoodNutrient foodNutrient = builder
+                .withFood(food)
                 .withAmountPer100Grams(12.0)
                 .withNutrientDefinition(protein)
-                .build(food)
+                .build()
         foodNutrientDAO.saveOrUpdate(foodNutrient)
 
         when:
@@ -61,9 +62,10 @@ class FoodNutrientDAOSpec extends DatabaseSpecification {
         NutrientDefinition protein = new NutrientDefinition(id: 1, unit: 'g', description: 'Protein')
         nutrientDefinitionDAO.saveOrUpdate(protein)
         FoodNutrient foodNutrient1 = builder
+                .withFood(food)
                 .withAmountPer100Grams(12.0)
                 .withNutrientDefinition(protein)
-                .build(food)
+                .build()
         foodNutrientDAO.saveOrUpdate(foodNutrient1)
 
         NutrientDefinition carb = new NutrientDefinition(id: 2, unit: 'g', description: 'carbohydrate')

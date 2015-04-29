@@ -10,13 +10,23 @@ class FoodBuilder {
     FoodBuilder() {
         food = new Food(
                 shortDescription: 'Steak',
-                longDescription: 'Grass fed Steak'
+                longDescription:  'Grass fed Steak',
+                foodGroup:        new FoodGroup(description: 'Beef')
         )
     }
 
-    Food build(FoodGroup foodGroup) {
-        food.foodGroup = foodGroup
+    Food build() {
         return food
+    }
+
+    FoodBuilder withId(Long id) {
+        food.id = id
+        return this
+    }
+
+    FoodBuilder withFoodGroup(FoodGroup foodGroup) {
+        food.foodGroup = foodGroup
+        return this
     }
 
     FoodBuilder withShortDescription(String description) {

@@ -14,9 +14,14 @@ class FoodNutrientBuilder {
         foodNutrient = new FoodNutrient()
     }
 
-    FoodNutrient build(Food food) {
-        foodNutrient.food = food
+    FoodNutrient build() {
         return foodNutrient
+    }
+
+
+    FoodNutrientBuilder withFood(Food food) {
+        foodNutrient.food = food
+        return this
     }
 
     FoodNutrientBuilder withNutrientDefinition(NutrientDefinition nutrientDefinition) {

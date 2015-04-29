@@ -21,4 +21,11 @@ class FoodWeightDAO extends AbstractDAO<FoodWeight> {
         return criteria().add(Restrictions.eq(FOOD_PARAM, food)).list()
     }
 
+    public FoodWeight findByFoodAndSequence(Food food, Long sequence) {
+        return uniqueResult(criteria()
+                .add(Restrictions.eq(FOOD_PARAM, food))
+                .add(Restrictions.eq('sequence', sequence))
+        )
+    }
+
 }

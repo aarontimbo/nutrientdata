@@ -12,7 +12,8 @@ import org.hibernate.criterion.Restrictions
  */
 class FoodNutrientDAO extends AbstractDAO<FoodNutrient> {
 
-    private static final String FOOD_PARAM = 'food'
+    private static final String FOOD_PARAM       = 'food'
+    private static final String DEFINITION_PARAM = 'definition'
 
     public FoodNutrientDAO(SessionFactory factory) {
         super(factory)
@@ -31,11 +32,19 @@ class FoodNutrientDAO extends AbstractDAO<FoodNutrient> {
         return criteria().add(Restrictions.eq(FOOD_PARAM, food)).list()
     }
 
-    public FoodNutrient findByFoodAndDefinition(Food food, NutrientDefinition definition) {
+    public FoodNutrient findByFoodAndDefinition(Food food, NutrientDefinition nutrientDef) {
         return criteria()
                 .add(Restrictions.eq(FOOD_PARAM, food))
-                .add(Restrictions.eq('definition', definition))
+                .add(Restrictions.eq(DEFINITION_PARAM, nutrientDef))
                 .uniqueResult()
+    }
+
+    public List<FoodNutrient> findByFoodAndDefinitions(Food food, List<NutrientDefinition> nutrientDefs) {
+
+        return criteria()
+                .add(Restrictions.eq(FOOD_PARAM, food))
+                .add(Restrictions.in(DEFINITION_PARAM, nutrientDefs))
+                .list()
     }
 
 }

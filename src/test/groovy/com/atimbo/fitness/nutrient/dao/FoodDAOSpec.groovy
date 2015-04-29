@@ -24,21 +24,19 @@ class FoodDAOSpec extends DatabaseSpecification {
         ]
     }
 
-    void 'find food'() {
+    void 'find food by id returns a food item'() {
         given:
         FoodGroup foodGroup = new FoodGroup(description: 'meat')
         foodGroupDAO.saveOrUpdate(foodGroup)
 
-        Food expectedFood = builder.build(foodGroup)
+        Food expectedFood = builder.withFoodGroup(foodGroup).build()
         foodDAO.saveOrUpdate(expectedFood)
-        assert expectedFood.id
 
         when:
         Food food = foodDAO.findById(expectedFood.id)
 
         then:
         food == expectedFood
-
     }
 
     @Unroll
@@ -46,7 +44,7 @@ class FoodDAOSpec extends DatabaseSpecification {
         given: 'a food'
         FoodGroup foodGroup = new FoodGroup(description: 'meat')
         foodGroupDAO.saveOrUpdate(foodGroup)
-        Food food = builder.build(foodGroup)
+        Food food = builder.withFoodGroup(foodGroup).build()
         foodDAO.saveOrUpdate(food)
 
         and: 'another food'

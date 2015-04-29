@@ -4,6 +4,7 @@ import com.atimbo.fitness.nutrient.domain.NutrientDefinition
 import com.yammer.dropwizard.hibernate.AbstractDAO
 import org.hibernate.Query
 import org.hibernate.SessionFactory
+import org.hibernate.criterion.Restrictions
 
 /**
  * Accessor methods for {@link NutrientDefinition} entity
@@ -31,6 +32,10 @@ class NutrientDefinitionDAO extends AbstractDAO<NutrientDefinition> {
 
     public NutrientDefinition findById(Long id) {
         return get(id)
+    }
+
+    List<NutrientDefinition> findByDescriptions(List<String> descriptions) {
+        return criteria().add(Restrictions.in('description', descriptions)).list()
     }
 
 }
