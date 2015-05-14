@@ -66,14 +66,11 @@ class FoodModule {
         FoodWeight foodWeight = foodWeightDAO.findByFoodAndSequence(food, sequence)
         NutrientDefinition nutrientDefinition = nutrientDefinitionDAO.findByDescriptions([definition]).first()
         FoodNutrient foodNutrient = foodNutrientDAO.findByFoodAndDefinition(food, nutrientDefinition)
-        NutrientProfile nutrientProfile = new NutrientProfile(
-                nutrient:nutrientDefinition.description,
-                amountInGrams:(amount * amountPerGram(foodWeight, foodNutrient))
-        )
-        return nutrientProfile
-    }
 
-    private Float amountPerGram(FoodWeight foodWeight, FoodNutrient foodNutrient) {
-        return foodWeight.gramWeight * foodNutrient.amountPer100Grams / 100
+        return new NutrientProfile(
+                nutrient:nutrientDefinition.description,
+                amountInGrams:NutrientProfileCalculator.calculate(
+                        amount, foodWeight.gramWeight, foodNutrient.amountPer100Grams)
+        )
     }
 }
