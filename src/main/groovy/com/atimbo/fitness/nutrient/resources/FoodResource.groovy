@@ -1,5 +1,6 @@
 package com.atimbo.fitness.nutrient.resources
 
+import com.atimbo.fitness.nutrient.api.NutrientProfile
 import com.atimbo.fitness.nutrient.domain.Food
 import com.atimbo.fitness.nutrient.domain.FoodNutrient
 import com.atimbo.fitness.nutrient.domain.FoodWeight
@@ -77,6 +78,17 @@ class FoodResource  extends AbstractResource {
     @UnitOfWork
     public List<FoodWeight> findWeightByFood(@PathParam('id') LongParam id) {
         return foodModule.getWeights(id.get())
+    }
+
+    @Path('/{id}/nutrientProfile')
+    @GET
+    @Timed
+    @UnitOfWork
+    public NutrientProfile getNutrientProfile(@PathParam('id') LongParam id,
+                                              @QueryParam('sequence') LongParam sequence,
+                                              @QueryParam('amount') Float amount,
+                                              @QueryParam('nutrient') String nutrientDefinition) {
+        return foodModule.getNutrientProfile(id.get(), sequence.get(), amount, nutrientDefinition)
     }
 
 }

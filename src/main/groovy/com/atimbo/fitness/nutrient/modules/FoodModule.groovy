@@ -1,6 +1,9 @@
 package com.atimbo.fitness.nutrient.modules
 
+import com.atimbo.fitness.nutrient.api.FoodItem
+import com.atimbo.fitness.nutrient.api.NutrientItem
 import com.atimbo.fitness.nutrient.api.NutrientProfile
+import com.atimbo.fitness.nutrient.api.NutrientType
 import com.atimbo.fitness.nutrient.dao.FoodDAO
 import com.atimbo.fitness.nutrient.dao.FoodNutrientDAO
 import com.atimbo.fitness.nutrient.dao.FoodWeightDAO
@@ -61,16 +64,48 @@ class FoodModule {
         return foodNutrientDAO.findAllByFood(food)
     }
 
-    NutrientProfile getNutrientProfile(Long foodId, Long sequence, Float amount, String definition) {
-        Food food = findById(foodId)
-        FoodWeight foodWeight = foodWeightDAO.findByFoodAndSequence(food, sequence)
-        NutrientDefinition nutrientDefinition = nutrientDefinitionDAO.findByDescriptions([definition]).first()
-        FoodNutrient foodNutrient = foodNutrientDAO.findByFoodAndDefinition(food, nutrientDefinition)
+    NutrientProfile getNutrientProfile(List<FoodItem> foodItems, String definition = null) {
+        NutrientProfile nutrientProfile
+        List<NutrientDefinition> nutrientDefinitions = getNutrientDefinitions(definition)
 
-        return new NutrientProfile(
-                nutrient:nutrientDefinition.description,
-                amountInGrams:NutrientProfileCalculator.calculate(
-                        amount, foodWeight.gramWeight, foodNutrient.amountPer100Grams)
-        )
+        foodItems.each { FoodItem foodItem ->
+            Food food = findById(foodItem.foodId)
+            FoodWeight foodWeight = foodWeightDAO.findByFoodAndSequence(food, foodItem.sequence)
+
+            List<FoodNutrient> foodNutrients = foodNutrientDAO.findByFoodAndDefinitions(food, nutrientDefinitions)
+            foodNutrients.each { FoodNutrient foodNutrient ->
+                NutrientItem nutrientItem
+                if (nutrientProfile?.items) {
+                    nutrientItem = nutrientProfile.items.find { it.nutrient == foodNutrient.definition.description }
+                }
+
+                if (!nutrientItem) {
+                    nutrientItem = new NutrientItem(
+                        nutrient:foodNutrient.definition.description, amountInGrams: 0.0)
+                        amountInGrams:NutrientProfileCalculator.calculate(
+                            foodItem.amount, foodWeight.gramWeight, foodNutrient.amountPer100Grams)
+
+                    nutrientProfile.items << nutrientItem
+                } else {
+                    nutrientItem.amountInGrams = NutrientProfileCalculator.calculate(
+                            foodItem.amount, foodWeight.gramWeight, foodNutrient.amountPer100Grams)
+                }
+
+            }
+
+        }
+
+        return nutrientProfile
     }
+
+    private List<NutrientDefinition> getNutrientDefinitions(String definition = null) {
+        List<String> definitions = []
+        if (definition) {
+            definitions << definition
+        } else {
+            definitions = NutrientType.values()*.id as Set
+        }
+        return nutrientDefinitionDAO.findByDescriptions(definitions)
+    }
+
 }
