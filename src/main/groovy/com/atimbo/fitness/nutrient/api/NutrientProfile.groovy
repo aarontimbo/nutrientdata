@@ -9,5 +9,5 @@ class NutrientProfile {
 
 class NutrientItem {
     String nutrient
-    BigDecimal amountInGrams
+    BigDecimal amountInGrams = 0.0
 }

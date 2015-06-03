@@ -3,6 +3,7 @@ package com.atimbo.fitness.nutrient.modules
 import com.atimbo.fitness.nutrient.api.FoodItem
 import com.atimbo.fitness.nutrient.api.NutrientItem
 import com.atimbo.fitness.nutrient.api.NutrientProfile
+import com.atimbo.fitness.nutrient.api.NutrientProfileRequest
 import com.atimbo.fitness.nutrient.api.NutrientType
 import com.atimbo.fitness.nutrient.dao.FoodDAO
 import com.atimbo.fitness.nutrient.dao.FoodNutrientDAO
@@ -12,12 +13,14 @@ import com.atimbo.fitness.nutrient.domain.Food
 import com.atimbo.fitness.nutrient.domain.FoodNutrient
 import com.atimbo.fitness.nutrient.domain.FoodWeight
 import com.atimbo.fitness.nutrient.domain.NutrientDefinition
+import groovy.util.logging.Slf4j
 
 import javax.persistence.EntityNotFoundException
 
 /**
  * Entity handling service
  */
+@Slf4j
 class FoodModule {
 
     FoodDAO foodDAO
@@ -64,8 +67,15 @@ class FoodModule {
         return foodNutrientDAO.findAllByFood(food)
     }
 
-    NutrientProfile getNutrientProfile(List<FoodItem> foodItems, String definition = null) {
-        NutrientProfile nutrientProfile
+    NutrientProfile getNutrientProfile(NutrientProfileRequest request) {
+        List<FoodItem> foodItems = request.foodItems
+        String definition = request.nutrientType?.id
+        if (definition) {
+            log.info "Creating profile for ${definition}."
+        } else {
+            log.info 'No nutrient type provided. Creating profile for all nutrient types.'
+        }
+        NutrientProfile nutrientProfile = new NutrientProfile()
         List<NutrientDefinition> nutrientDefinitions = getNutrientDefinitions(definition)
 
         foodItems.each { FoodItem foodItem ->
@@ -75,22 +85,22 @@ class FoodModule {
             List<FoodNutrient> foodNutrients = foodNutrientDAO.findByFoodAndDefinitions(food, nutrientDefinitions)
             foodNutrients.each { FoodNutrient foodNutrient ->
                 NutrientItem nutrientItem
-                if (nutrientProfile?.items) {
-                    nutrientItem = nutrientProfile.items.find { it.nutrient == foodNutrient.definition.description }
-                }
+                BigDecimal amountInGrams = 0
+                nutrientItem = nutrientProfile.items.find { it.nutrient == foodNutrient.definition.description }
 
-                if (!nutrientItem) {
-                    nutrientItem = new NutrientItem(
-                        nutrient:foodNutrient.definition.description, amountInGrams: 0.0)
-                        amountInGrams:NutrientProfileCalculator.calculate(
-                            foodItem.amount, foodWeight.gramWeight, foodNutrient.amountPer100Grams)
-
-                    nutrientProfile.items << nutrientItem
+                if (nutrientItem) {
+                    amountInGrams = nutrientItem.amountInGrams
                 } else {
-                    nutrientItem.amountInGrams = NutrientProfileCalculator.calculate(
-                            foodItem.amount, foodWeight.gramWeight, foodNutrient.amountPer100Grams)
+                    nutrientItem = new NutrientItem(nutrient:foodNutrient.definition.description)
+                    nutrientProfile.items << nutrientItem
                 }
+                amountInGrams += NutrientProfileCalculator.calculate(
+                        foodItem.amount, foodWeight.gramWeight, foodNutrient.amountPer100Grams)
 
+                // Update the amount in grams for this nutrient item
+                nutrientProfile.items.find {
+                    it.nutrient == foodNutrient.definition.description
+                }.amountInGrams = amountInGrams
             }
 
         }
@@ -99,11 +109,9 @@ class FoodModule {
     }
 
     private List<NutrientDefinition> getNutrientDefinitions(String definition = null) {
-        List<String> definitions = []
-        if (definition) {
-            definitions << definition
-        } else {
-            definitions = NutrientType.values()*.id as Set
+        List<String> definitions = NutrientType.values()*.id
+        if (definition && definition in definitions) {
+            definitions = [definition]
         }
         return nutrientDefinitionDAO.findByDescriptions(definitions)
     }

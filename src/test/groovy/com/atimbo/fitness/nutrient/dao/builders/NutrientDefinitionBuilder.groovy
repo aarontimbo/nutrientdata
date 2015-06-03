@@ -9,6 +9,6 @@ import com.atimbo.fitness.nutrient.domain.NutrientDefinition
 class NutrientDefinitionBuilder {
 
     static NutrientDefinition build() {
-        return new NutrientDefinition(unit: 'g', description: 'PROTEIN')
+        return new NutrientDefinition(unit: 'g', description: 'Protein')
     }
 }

@@ -1,6 +1,10 @@
 package com.atimbo.fitness.nutrient.modules
 
+import com.atimbo.fitness.nutrient.api.FoodItem
+import com.atimbo.fitness.nutrient.api.NutrientItem
 import com.atimbo.fitness.nutrient.api.NutrientProfile
+import com.atimbo.fitness.nutrient.api.NutrientProfileRequest
+import com.atimbo.fitness.nutrient.api.NutrientType
 import com.atimbo.fitness.nutrient.dao.FoodDAO
 import com.atimbo.fitness.nutrient.dao.FoodNutrientDAO
 import com.atimbo.fitness.nutrient.dao.FoodWeightDAO
@@ -62,20 +66,24 @@ class FoodModuleSpec extends Specification {
                 .withNutrientDefinition(nutrientDefinition)
                 .withAmountPer100Grams(150)
                 .build()
+        FoodItem foodItem = new FoodItem(foodId: food.id, sequence: foodWeight.sequence, amount: 2.0)
+        NutrientProfileRequest request = new NutrientProfileRequest(
+                foodItems: [foodItem],
+                nutrientType: NutrientType.PROTEIN
+        )
 
         when:
-        NutrientProfile profile = module.getNutrientProfile(
-                food.id, foodWeight.sequence, 2.0, nutrientDefinition.description)
+        NutrientProfile profile = module.getNutrientProfile(request)
 
         then:
         1 * foodDAO.findById(food.id) >> food
         1 * foodWeightDAO.findByFoodAndSequence(food, foodWeight.sequence) >> foodWeight
         1 * nutrientDefinitionDAO.findByDescriptions([nutrientDefinition.description]) >> [nutrientDefinition]
-        1 * foodNutrientDAO.findByFoodAndDefinition(food, nutrientDefinition) >> foodNutrient
+        1 * foodNutrientDAO.findByFoodAndDefinitions(food, [nutrientDefinition]) >> [foodNutrient]
         0 * _
 
-        profile.amountInGrams == 300.0
-        profile.nutrient == nutrientDefinition.description
+        profile.items.size() == 1
+        300.0 == profile.items.find{ it.nutrient == nutrientDefinition.description }.amountInGrams
     }
 
 }
