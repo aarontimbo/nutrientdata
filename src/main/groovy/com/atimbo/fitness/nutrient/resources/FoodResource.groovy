@@ -1,7 +1,5 @@
 package com.atimbo.fitness.nutrient.resources
 
-import com.atimbo.fitness.nutrient.api.NutrientProfile
-import com.atimbo.fitness.nutrient.api.NutrientProfileRequest
 import com.atimbo.fitness.nutrient.domain.Food
 import com.atimbo.fitness.nutrient.domain.FoodNutrient
 import com.atimbo.fitness.nutrient.domain.FoodWeight
@@ -14,7 +12,6 @@ import com.yammer.dropwizard.jersey.params.LongParam
 import com.yammer.metrics.annotation.Timed
 
 import javax.ws.rs.GET
-import javax.ws.rs.POST
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces

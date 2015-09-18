@@ -14,13 +14,12 @@ import com.atimbo.fitness.nutrient.domain.NutrientDefinition
 import com.atimbo.fitness.nutrient.modules.FoodModule
 import com.atimbo.fitness.nutrient.modules.FoodNutrientModule
 import com.atimbo.fitness.nutrient.modules.NutrientDefinitionModule
-import com.atimbo.fitness.nutrient.modules.NutrientProfileModule
 import com.atimbo.fitness.nutrient.resources.FoodGroupResource
 import com.atimbo.fitness.nutrient.resources.FoodNutrientResource
 import com.atimbo.fitness.nutrient.resources.FoodResource
 import com.atimbo.fitness.nutrient.resources.FoodWeightResource
 import com.atimbo.fitness.nutrient.resources.NutrientDefinitionResource
-import com.atimbo.fitness.nutrient.resources.NutrientProfileResource
+
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.collect.ImmutableList
 import com.yammer.dropwizard.Service
@@ -81,6 +80,7 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
     }
 
     @Override
+    @SuppressWarnings('UnnecessaryObjectReferences')
     void run(NutrientDataConfiguration configuration, Environment environment) throws ClassNotFoundException {
 
         objectMapper = environment.objectMapperFactory.build()
@@ -98,14 +98,11 @@ class NutrientDataService extends Service<NutrientDataConfiguration> {
         FoodModule foodModule = new FoodModule(foodDAO, foodNutrientDAO, foodWeightDAO, nutrientDefinitionDAO)
         FoodNutrientModule foodNutrientModule = new FoodNutrientModule(foodDAO, foodNutrientDAO, nutrientDefinitionDAO)
         NutrientDefinitionModule nutrientDefinitionModule = new NutrientDefinitionModule(nutrientDefinitionDAO)
-        NutrientProfileModule nutrientProfileModule =
-            new NutrientProfileModule(foodDAO, foodNutrientDAO, foodWeightDAO, nutrientDefinitionDAO)
         environment.addResource(new FoodResource(foodModule, nutrientDefinitionModule, objectMapper))
         environment.addResource(new FoodGroupResource(foodGroupDAO))
         environment.addResource(new FoodNutrientResource(foodNutrientModule))
         environment.addResource(new FoodWeightResource(foodDAO, foodWeightDAO))
         environment.addResource(new NutrientDefinitionResource(nutrientDefinitionDAO))
-        environment.addResource(new NutrientProfileResource(nutrientProfileModule, objectMapper))
     }
 
     protected List<Class> getServiceEntities() {
