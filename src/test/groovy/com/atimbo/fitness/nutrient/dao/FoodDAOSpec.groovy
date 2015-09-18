@@ -1,18 +1,19 @@
 package com.atimbo.fitness.nutrient.dao
 
+import com.atimbo.fitness.nutrient.dao.builders.FoodBuilder
 import com.atimbo.fitness.nutrient.domain.Food
 import com.atimbo.fitness.nutrient.domain.FoodGroup
 import spock.lang.Unroll
 
-import javax.persistence.EntityNotFoundException
-
 class FoodDAOSpec extends DatabaseSpecification {
 
+    FoodBuilder builder
     FoodDAO foodDAO
     FoodGroupDAO foodGroupDAO
 
     def setup() {
-        foodGroupDAO= new FoodGroupDAO(sessionFactory)
+        builder = new FoodBuilder()
+        foodGroupDAO = new FoodGroupDAO(sessionFactory)
         foodDAO = new FoodDAO(sessionFactory)
     }
 
@@ -23,24 +24,19 @@ class FoodDAOSpec extends DatabaseSpecification {
         ]
     }
 
-    void 'find food'() {
+    void 'find food by id returns a food item'() {
         given:
         FoodGroup foodGroup = new FoodGroup(description: 'meat')
         foodGroupDAO.saveOrUpdate(foodGroup)
-        Food expectedFood = new Food(
-                longDescription: 'steak',
-                shortDescription: 'steak',
-                foodGroup: foodGroup
-        )
+
+        Food expectedFood = builder.withFoodGroup(foodGroup).build()
         foodDAO.saveOrUpdate(expectedFood)
-        assert expectedFood.id
 
         when:
         Food food = foodDAO.findById(expectedFood.id)
 
         then:
         food == expectedFood
-
     }
 
     @Unroll
@@ -48,11 +44,7 @@ class FoodDAOSpec extends DatabaseSpecification {
         given: 'a food'
         FoodGroup foodGroup = new FoodGroup(description: 'meat')
         foodGroupDAO.saveOrUpdate(foodGroup)
-        Food food = new Food(
-                longDescription: 'steak',
-                shortDescription: 'steak',
-                foodGroup: foodGroup
-        )
+        Food food = builder.withFoodGroup(foodGroup).build()
         foodDAO.saveOrUpdate(food)
 
         and: 'another food'
@@ -78,18 +70,6 @@ class FoodDAOSpec extends DatabaseSpecification {
         findBy          | description   || expectedListSize
         'all'           | null          || 2
         'by pork chop'  | 'pork'        || 1
-    }
-
-    void 'retrieving a food that does not exist throws an error'() {
-        given: 'food that does not exist'
-        Long nonExistentFoodId = 999
-
-        when:
-        foodDAO.findById(nonExistentFoodId)
-
-        then:
-        thrown(EntityNotFoundException)
-
     }
 
 }

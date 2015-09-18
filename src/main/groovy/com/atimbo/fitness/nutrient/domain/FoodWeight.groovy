@@ -1,5 +1,6 @@
 package com.atimbo.fitness.nutrient.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
@@ -9,9 +10,8 @@ import javax.persistence.FetchType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
-import javax.persistence.NamedQueries
-import javax.persistence.NamedQuery
 import javax.persistence.Table
+import javax.persistence.Transient
 
 /**
  * Food weight providing weight in grams for a
@@ -19,16 +19,11 @@ import javax.persistence.Table
  */
 @Entity
 @Table(name = 'food_weight')
-@NamedQueries([
-@NamedQuery(
-        name = 'com.atimbo.fitness.nutrient.domain.FoodWeight.findAllByFood',
-        query = 'select fw from FoodWeight fw where fw.food = :food'
-)
-])
 @ToString
 @EqualsAndHashCode
 class FoodWeight {
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = 'food_id')
     Food food
@@ -44,5 +39,10 @@ class FoodWeight {
 
     @Column(nullable = false)
     String description
+
+    @Transient
+    String getFoodId() {
+        return food.id
+    }
 
 }

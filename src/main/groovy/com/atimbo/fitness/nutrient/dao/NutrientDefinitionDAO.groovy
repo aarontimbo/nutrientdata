@@ -4,6 +4,7 @@ import com.atimbo.fitness.nutrient.domain.NutrientDefinition
 import com.yammer.dropwizard.hibernate.AbstractDAO
 import org.hibernate.Query
 import org.hibernate.SessionFactory
+import org.hibernate.criterion.Restrictions
 
 /**
  * Accessor methods for {@link NutrientDefinition} entity
@@ -14,6 +15,15 @@ class NutrientDefinitionDAO extends AbstractDAO<NutrientDefinition> {
         super(factory)
     }
 
+    /**
+     * Only used for testing
+     * @param nutrientDefinition
+     * @return
+     */
+    public NutrientDefinition saveOrUpdate(NutrientDefinition nutrientDefinition) {
+        persist(nutrientDefinition)
+    }
+
     public List<NutrientDefinition> findAll() {
         Query query = super.currentSession()
                 .getNamedQuery('com.atimbo.fitness.nutrient.domain.NutrientDefinition.findAll')
@@ -22,6 +32,10 @@ class NutrientDefinitionDAO extends AbstractDAO<NutrientDefinition> {
 
     public NutrientDefinition findById(Long id) {
         return get(id)
+    }
+
+    List<NutrientDefinition> findByDescriptions(List<String> descriptions) {
+        return criteria().add(Restrictions.in('description', descriptions)).list()
     }
 
 }

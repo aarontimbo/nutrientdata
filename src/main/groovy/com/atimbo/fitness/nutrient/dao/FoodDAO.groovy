@@ -5,8 +5,6 @@ import com.yammer.dropwizard.hibernate.AbstractDAO
 import org.hibernate.SessionFactory
 import org.hibernate.criterion.Restrictions
 
-import javax.persistence.EntityNotFoundException
-
 /**
  * Accessor methods for {@link Food} entity
  */
@@ -28,10 +26,6 @@ class FoodDAO extends AbstractDAO<Food> {
     }
 
     public Food findById(Long id) {
-        Food food = get(id)
-        if (!food) {
-            throw new EntityNotFoundException("Could not find food with id: ${id}")
-        }
         return get(id)
     }
 
